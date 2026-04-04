@@ -1,6 +1,8 @@
 "use client";
 
-import { Activity, useEffect, useState } from "react";
+import { EllipsisVertical } from "lucide-react";
+
+import { Activity } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,26 +15,15 @@ const links = [
   { name: "Applications", href: "/applications" },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ user }: { user: any }) => {
   const pathname = usePathname();
-  const [isVisible, setIsVisible] = useState(
-    pathname === "/login" || pathname === "/sign-up" || pathname === "/"
-      ? false
-      : true,
-  );
 
-  useEffect(() => {
-    // Hide sidebar on the login page
-    if (pathname === "/login" || pathname === "/sign-up" || pathname === "/") {
-      setIsVisible(false);
-    } else {
-      setIsVisible(true);
-    }
-  }, [pathname]);
+  const isVisible =
+    pathname !== "/login" && pathname !== "/sign-up" && pathname !== "/";
 
   return (
     <Activity mode={isVisible ? "visible" : "hidden"}>
-      <div className="lg:w-80 min-h-screen bg-primary text-sidebar-primary-foreground p-2 border-r border-sidebar-border">
+      <div className="lg:w-80 min-h-screen bg-primary text-sidebar-primary-foreground p-2 border-r border-sidebar-border flex flex-col">
         <div className="mb-6 px-4">
           <img
             src="/calibrate.svg"
@@ -55,6 +46,34 @@ const Sidebar = () => {
         <Button className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-sm font-medium rounded-lg w-full h-fit py-2! mt-6">
           Add Application
         </Button>
+
+        <section className="mt-auto">
+          {/* User Profile */}
+          {user && (
+            <div className="flex items-center gap-2 p-4 overflow-hidden rounded-lg hover:cursor-pointer hover:bg-sidebar-accent-foreground/40 transition-all duration-200">
+              <img
+                src={user.image || "/default-profile.jpg"}
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <div className="min-w-0">
+                <p
+                  className="text-[12px] font-medium truncate leading-tight"
+                  title={user.name}
+                >
+                  {user.name}
+                </p>
+                <p
+                  className="text-[12px] max-w-[95%] truncate leading-tight font-light"
+                  title={user.email}
+                >
+                  {user.email}
+                </p>
+              </div>
+              <EllipsisVertical></EllipsisVertical>
+            </div>
+          )}
+        </section>
       </div>
     </Activity>
   );
