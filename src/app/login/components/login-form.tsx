@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 export function LoginForm({
@@ -98,7 +99,16 @@ export function LoginForm({
                 </Button>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
-              <Button variant="outline" type="button">
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() =>
+                  authClient.signIn.social({
+                    provider: "google",
+                    callbackURL: "/dashboard",
+                  })
+                }
+              >
                 <SiGoogle></SiGoogle>
                 <span>Continue with Google</span>
               </Button>
