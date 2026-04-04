@@ -37,5 +37,6 @@ export type FormState =
         confirmPassword?: string[];
       };
       message?: string;
+      error?: any;
     }
   | undefined;

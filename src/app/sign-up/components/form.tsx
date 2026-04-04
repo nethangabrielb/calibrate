@@ -1,8 +1,11 @@
 "use client";
 
 import { signup } from "@/actions/auth";
+import { toast } from "sonner";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,10 +29,19 @@ export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+
   const [state, action, pending] = useActionState(signup, undefined);
 
-  console.log(state);
+  useEffect(() => {
+    if (state?.success) {
+      // show a success message
+      toast.success(state.message);
 
+      // redirect to login page
+      router.push("/login");
+    }
+  }, [state]);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -51,11 +63,15 @@ export function SignupForm({
                   placeholder="John Doe"
                   required
                 />
-                {state?.errors?.name && (
-                  <FieldDescription className="text-destructive">
-                    {state.errors.name.join(", ")}
-                  </FieldDescription>
-                )}
+                {state?.errors?.name &&
+                  state.errors.name.map((error, index) => (
+                    <FieldDescription
+                      key={index}
+                      className="text-destructive text-xs"
+                    >
+                      {error}
+                    </FieldDescription>
+                  ))}
               </Field>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -66,11 +82,15 @@ export function SignupForm({
                   placeholder="m@example.com"
                   required
                 />
-                {state?.errors?.email && (
-                  <FieldDescription className="text-destructive">
-                    {state.errors.email.join(", ")}
-                  </FieldDescription>
-                )}
+                {state?.errors?.email &&
+                  state.errors.email.map((error, index) => (
+                    <FieldDescription
+                      key={index}
+                      className="text-destructive text-xs"
+                    >
+                      {error}
+                    </FieldDescription>
+                  ))}
               </Field>
               <Field>
                 <Field className="grid grid-cols-2 gap-4">
