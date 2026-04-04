@@ -13,10 +13,10 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            String    @id
   email         String    @unique
   name          String?
-  password      String
+  password      String?
   jobs          Job[]
   emailVerified Boolean   @default(false)
   image         String?
@@ -24,13 +24,11 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
-
-  @@map("user")
 }
 
 model Job {
   id             Int        @id @default(autoincrement())
-  userId         Int
+  userId         String
   user           User       @relation(fields: [userId], references: [id])
   company        String
   title          String
@@ -68,19 +66,18 @@ model Session {
   updatedAt DateTime @updatedAt
   ipAddress String?
   userAgent String?
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@index([userId])
-  @@map("session")
 }
 
 model Account {
   id                    String    @id
   accountId             String
   providerId            String
-  userId                Int
+  userId                String
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
@@ -93,7 +90,6 @@ model Account {
   updatedAt             DateTime  @updatedAt
 
   @@index([userId])
-  @@map("account")
 }
 
 model Verification {
@@ -105,5 +101,4 @@ model Verification {
   updatedAt  DateTime @updatedAt
 
   @@index([identifier])
-  @@map("verification")
 }

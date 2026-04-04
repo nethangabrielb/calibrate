@@ -1,5 +1,6 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import "server-only";
+
+// import "server-only";
 
 import { PrismaClient } from "../../orm/generated/prisma/client";
 

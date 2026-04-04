@@ -102,8 +102,8 @@ export function LoginForm({
               <Button
                 variant="outline"
                 type="button"
-                onClick={() =>
-                  authClient.signIn.social({
+                onClick={async () =>
+                  await authClient.signIn.social({
                     provider: "google",
                     callbackURL: "/dashboard",
                   })
