@@ -1,13 +1,12 @@
 "use client";
 
-import { EllipsisVertical } from "lucide-react";
-
 import { Activity } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import Icon from "@/components/sidebar-icon";
+import ProfileDropdown from "@/components/sidebar-profile-dropdown";
 import { Button } from "@/components/ui/button";
 
 const links = [
@@ -49,30 +48,7 @@ const Sidebar = ({ user }: { user: any }) => {
 
         <section className="mt-auto">
           {/* User Profile */}
-          {user && (
-            <div className="flex items-center gap-2 p-4 overflow-hidden rounded-lg hover:cursor-pointer hover:bg-sidebar-accent-foreground/40 transition-all duration-200">
-              <img
-                src={user.image || "/default-profile.jpg"}
-                alt="Profile"
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <div className="min-w-0">
-                <p
-                  className="text-[12px] font-medium truncate leading-tight"
-                  title={user.name}
-                >
-                  {user.name}
-                </p>
-                <p
-                  className="text-[12px] max-w-[95%] truncate leading-tight font-light"
-                  title={user.email}
-                >
-                  {user.email}
-                </p>
-              </div>
-              <EllipsisVertical></EllipsisVertical>
-            </div>
-          )}
+          {user && <ProfileDropdown user={user}></ProfileDropdown>}
         </section>
       </div>
     </Activity>
