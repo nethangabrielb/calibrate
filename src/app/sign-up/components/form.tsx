@@ -61,6 +61,12 @@ export function SignupForm({
                   name="name"
                   type="text"
                   placeholder="John Doe"
+                  defaultValue={state?.data?.name}
+                  className={cn(
+                    state?.errors?.name &&
+                      state?.errors?.name.length > 0 &&
+                      "border-destructive",
+                  )}
                   required
                 />
                 {state?.errors?.name &&
@@ -80,6 +86,12 @@ export function SignupForm({
                   name="email"
                   type="email"
                   placeholder="m@example.com"
+                  defaultValue={state?.data?.email}
+                  className={cn(
+                    state?.errors?.email &&
+                      state?.errors?.email.length > 0 &&
+                      "border-destructive",
+                  )}
                   required
                 />
                 {state?.errors?.email &&
@@ -100,6 +112,12 @@ export function SignupForm({
                       id="password"
                       name="password"
                       type="password"
+                      className={cn(
+                        state?.errors?.password &&
+                          state?.errors?.password.length > 0 &&
+                          "border-destructive",
+                      )}
+                      defaultValue={state?.data?.password}
                       required
                     />
                     {state?.errors?.password &&
@@ -119,7 +137,13 @@ export function SignupForm({
                     <Input
                       id="confirm-password"
                       name="confirmPassword"
+                      className={cn(
+                        state?.errors?.confirmPassword &&
+                          state?.errors?.confirmPassword.length > 0 &&
+                          "border-destructive",
+                      )}
                       type="password"
+                      defaultValue={state?.data?.confirmPassword}
                       required
                     />
                     {state?.errors?.confirmPassword &&

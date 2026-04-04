@@ -5,7 +5,9 @@ export const SignupFormSchema = z
     name: z
       .string()
       .min(2, { error: "Name must be at least 2 characters long." })
-      .trim(),
+      .refine((value) => value.trim().length > 0, {
+        error: "Name must not be empty.",
+      }),
     email: z.email({ error: "Please enter a valid email." }).trim(),
     password: z
       .string()
@@ -28,6 +30,8 @@ export const SignupFormSchema = z
     path: ["confirmPassword"],
   });
 
+type SignupFormData = z.infer<typeof SignupFormSchema>;
+
 export type FormState =
   | {
       errors?: {
@@ -38,5 +42,6 @@ export type FormState =
       };
       message?: string;
       error?: any;
+      data?: SignupFormData;
     }
   | undefined;
