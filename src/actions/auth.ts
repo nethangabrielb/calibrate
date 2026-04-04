@@ -117,7 +117,7 @@ export const login = async (state: FormState, formData: FormData) => {
   }
 
   // If password is correct, log the user in by creating a token and returning the token
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
+  const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY!, {
     expiresIn: "7d",
   });
 

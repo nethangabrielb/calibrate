@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { useActionState, useEffect } from "react";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -170,7 +171,7 @@ export function SignupForm({
                   {pending ? "Creating Account..." : "Create Account"}
                 </Button>
                 <FieldDescription className="text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Already have an account? <Link href="/login">Sign in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
