@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Geist, Geist_Mono } from "next/font/google";
 
+import Sidebar from "@/components/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
 import QueryProvider from "@/providers/query-provider";
@@ -35,7 +36,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster richColors position="top-right" theme="light" />
-        <QueryProvider>{children}</QueryProvider>
+        {/* Sidebar here only visible for authenticated users */}
+        <main className="flex justify-center items-center">
+          <Sidebar />
+          <QueryProvider>{children}</QueryProvider>
+        </main>
       </body>
     </html>
   );
