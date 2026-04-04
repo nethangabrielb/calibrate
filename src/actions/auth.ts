@@ -1,16 +1,14 @@
 "use server";
 
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { z } from "zod";
 
-import prisma from "@/lib/prisma";
-import { createHttpCookieToken } from "@/lib/token";
+import { auth } from "@/lib/auth";
 
 import { LoginFormSchema } from "@/schemas/loginForm";
 import { FormState, SignupFormSchema } from "@/schemas/signupForm";
 
 export const signup = async (state: FormState, formData: FormData) => {
+  // validate user input fields using zod schema
   const validatedFields = SignupFormSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
@@ -18,6 +16,7 @@ export const signup = async (state: FormState, formData: FormData) => {
     confirmPassword: formData.get("confirmPassword"),
   });
 
+  // get form data to persist values in case of validation errors
   const initialData = {
     name: formData.get("name") as string,
     email: formData.get("email") as string,
@@ -25,6 +24,7 @@ export const signup = async (state: FormState, formData: FormData) => {
     confirmPassword: formData.get("confirmPassword") as string,
   };
 
+  // return errors if validation fails
   if (!validatedFields.success) {
     const flattened = z.flattenError(validatedFields.error);
 
@@ -36,32 +36,22 @@ export const signup = async (state: FormState, formData: FormData) => {
 
   const { name, email, password } = validatedFields.data;
 
-  const userExists = await prisma.user.findUnique({
-    where: { email },
-  });
-
-  if (userExists) {
-    return {
-      errors: {
-        email: ["Email is already taken."],
-        name: [],
-        password: [],
-        confirmPassword: [],
-      },
-      data: validatedFields.data,
-    };
-  }
-
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
   try {
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
+    // Use better-auth to create a new user with email and password
+    const res = await auth.api.signUpEmail({
+      body: { name, email, password },
+      asResponse: true,
     });
+
+    // if res is not ok, throw an error.
+    // we know that the only possible error atp is that the email is already taken,
+    // so we can return a specific error message for that.
+    if (!res.ok) {
+      return {
+        errors: { email: ["Email is already taken."] },
+        data: initialData,
+      };
+    }
 
     return { success: true, message: "Account created successfully!" };
   } catch (error) {
@@ -90,38 +80,19 @@ export const login = async (state: FormState, formData: FormData) => {
 
   const { email, password } = validatedFields.data;
 
-  // Check if user exists
-  const user = await prisma.user.findUnique({ where: { email } });
-
-  // If user doesn't exist, return an error
-  if (!user) {
-    return {
-      errors: {
-        email: ["Invalid email or password."],
-        password: ["Invalid email or password."],
-      },
-    };
-  }
-
-  // Check if password is correct
-  const isPasswordValid = bcrypt.compareSync(password, user.password);
-
-  // If password is incorrect, return an error
-  if (!isPasswordValid) {
-    return {
-      errors: {
-        email: ["Invalid email or password."],
-        password: ["Invalid email or password."],
-      },
-    };
-  }
-
-  // If password is correct, log the user in by creating a token and returning the token
-  const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY!, {
-    expiresIn: "7d",
+  const response = await auth.api.signInEmail({
+    body: { email, password },
+    asResponse: true,
   });
 
-  await createHttpCookieToken(token);
+  if (!response.ok) {
+    return {
+      errors: {
+        email: ["Invalid email or password."],
+        password: ["Invalid email or password."],
+      },
+    };
+  }
 
   return { success: true, message: "Logged in successfully!" };
 };
