@@ -33,9 +33,13 @@ const Sidebar = () => {
   return (
     <Activity mode={isVisible ? "visible" : "hidden"}>
       <div className="lg:w-80 min-h-screen bg-primary text-sidebar-primary-foreground p-2 border-r border-sidebar-border">
-        <Button className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-md font-medium rounded-lg w-full h-fit p-2! mb-4">
-          Add Application
-        </Button>
+        <div className="mb-6 px-4">
+          <img
+            src="/calibrate.svg"
+            alt="Calibrate AI Logo"
+            className="object-cover w-full dark:brightness-[0.2] dark:grayscale"
+          />
+        </div>
         <ul>
           {links.map((link) => (
             <Link
@@ -48,6 +52,9 @@ const Sidebar = () => {
             </Link>
           ))}
         </ul>
+        <Button className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-sm font-medium rounded-lg w-full h-fit py-2! mt-6">
+          Add Application
+        </Button>
       </div>
     </Activity>
   );
