@@ -37,6 +37,7 @@ model Job {
   salary         Int?
   salaryCurrency String?
   createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
   status         JobStatus  @default(APPLIED)
   analyses       Analysis[]
 }
