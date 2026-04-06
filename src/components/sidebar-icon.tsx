@@ -1,7 +1,13 @@
 import { FileUser, LayoutDashboard } from "lucide-react";
 
-const Icon = ({ name }: { name: string }) => {
-  const style = "w-7 h-7";
+const Icon = ({
+  name,
+  isCurrentPath,
+}: {
+  name: string;
+  isCurrentPath: boolean;
+}) => {
+  const style = `transition-all w-7 h-7 ${isCurrentPath && "fill-sidebar text-sidebar-primary"}`;
 
   switch (name) {
     case "dashboard":

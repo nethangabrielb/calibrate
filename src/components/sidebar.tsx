@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 
 const links = [
   { name: "Dashboard", href: "/dashboard" },
-  { name: "Applications", href: "/applications" },
+  { name: "Applications", href: "/job-applications" },
 ];
 
 const Sidebar = ({ user }: { user: any }) => {
@@ -37,7 +37,10 @@ const Sidebar = ({ user }: { user: any }) => {
               href={link.href}
               className=" py-3 px-4 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all duration-200 flex items-center gap-2 text-md font-medium rounded-lg"
             >
-              <Icon name={link.name.toLowerCase()} />
+              <Icon
+                name={link.name.toLowerCase()}
+                isCurrentPath={pathname === link.href}
+              />
               {link.name}
             </Link>
           ))}
