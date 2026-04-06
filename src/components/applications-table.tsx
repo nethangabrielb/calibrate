@@ -16,7 +16,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { formatDate } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 import { Application } from "@/types/application";
@@ -65,7 +64,8 @@ const ApplicationsTable = ({
                   key={header.id}
                   className={
                     header.getContext().column.id === "analysisScore" ||
-                    header.getContext().column.id === "status"
+                    header.getContext().column.id === "status" ||
+                    header.getContext().column.id === "actions"
                       ? "text-center"
                       : ""
                   }
@@ -79,7 +79,6 @@ const ApplicationsTable = ({
                 </TableHead>
               );
             })}
-            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         ))}
       </TableHeader>
@@ -96,7 +95,8 @@ const ApplicationsTable = ({
                   className={cn(
                     cell.column.id === "salary" ||
                       (cell.column.id === "analysisScore" && "text-center") ||
-                      (cell.column.id === "status" && "text-center"),
+                      (cell.column.id === "status" && "text-center") ||
+                      (cell.column.id === "actions" && "text-center"),
                   )}
                 >
                   {cell.column.id === "status" ? (
@@ -113,14 +113,6 @@ const ApplicationsTable = ({
                   )}
                 </TableCell>
               ))}
-              <TableCell className="text-center">
-                <button className="bg-blue-400 text-white p-1 rounded-md cursor-pointer">
-                  <Pencil size={18}></Pencil>
-                </button>
-                <button className="bg-destructive/80 text-white p-1 rounded-md ml-2 cursor-pointer">
-                  <Trash size={18}></Trash>
-                </button>
-              </TableCell>
             </TableRow>
           ))
         ) : (
