@@ -51,6 +51,4 @@ export const GET = async (_request: NextRequest) => {
       { status: 500 },
     );
   }
-
-  // Future Implementation: Add pagination/filter/sort support using query string params.
 };
