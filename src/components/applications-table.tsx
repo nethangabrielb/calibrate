@@ -1,3 +1,5 @@
+import { Pencil, Trash } from "lucide-react";
+
 import {
   Table,
   TableBody,
@@ -59,7 +61,10 @@ const ApplicationsTable = ({
             <TableCell>{application.company}</TableCell>
             <TableCell>{application.location}</TableCell>
             <TableCell className="text-center">
-              ${application?.salary?.toFixed(2)}
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: application?.salaryCurrency || "USD",
+              }).format(application?.salary || 0)}
             </TableCell>
             <TableCell>
               {application?.createdAt && formatDate(application.createdAt)}
@@ -80,11 +85,14 @@ const ApplicationsTable = ({
             <TableCell>
               {application?.analyses?.[0]?.score?.toFixed(2)}
             </TableCell>
-            {/* <TableCell>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                View Details
+            <TableCell>
+              <button className="bg-blue-400 text-white p-1 rounded-md cursor-pointer">
+                <Pencil size={18}></Pencil>
               </button>
-            </TableCell> */}
+              <button className="bg-destructive/80 text-white p-1 rounded-md ml-2 cursor-pointer">
+                <Trash size={18}></Trash>
+              </button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
