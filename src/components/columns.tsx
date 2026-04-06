@@ -32,6 +32,7 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "salary",
+    enableGlobalFilter: false,
     header: ({ column }) => {
       return (
         <Button
@@ -73,11 +74,13 @@ export const columns: ColumnDef<Application>[] = [
       );
     },
     cell: ({ row }) => formatDate(row.original.createdAt),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: "updatedAt",
     header: "Updated At",
     cell: ({ row }) => formatDate(row.original.updatedAt),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: "status",
@@ -109,6 +112,7 @@ export const columns: ColumnDef<Application>[] = [
   {
     id: "actions",
     header: "Actions",
+    enableGlobalFilter: false,
     cell: ({ row }) => {
       return (
         <DropdownMenu>

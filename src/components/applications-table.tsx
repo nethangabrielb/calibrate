@@ -1,8 +1,10 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
   SortingState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -11,6 +13,7 @@ import {
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -35,6 +38,7 @@ const ApplicationsTable = ({
   columns,
 }: ApplicationsTableProps<Application, unknown>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable({
     data: applications,
@@ -43,8 +47,11 @@ const ApplicationsTable = ({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      globalFilter: globalFilter,
     },
   });
 
@@ -67,6 +74,13 @@ const ApplicationsTable = ({
 
   return (
     <div className="flex h-full min-h-0 w-full min-w-0 flex-col">
+      <div className="flex items-center py-2">
+        <Input
+          placeholder="Search for applications..."
+          onChange={(e) => table.setGlobalFilter(String(e.target.value))}
+          className="max-w-sm"
+        />
+      </div>
       <div className="min-h-0 flex-1 overflow-auto">
         <Table className="table-fixed">
           <TableCaption>A list of all your applications</TableCaption>
