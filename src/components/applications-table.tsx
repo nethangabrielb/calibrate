@@ -49,6 +49,11 @@ const ApplicationsTable = ({
     getSortedRowModel: getSortedRowModel(),
     onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 8, // change this to whatever you want
+      },
+    },
     state: {
       sorting,
       globalFilter: globalFilter,
