@@ -79,16 +79,15 @@ const ApplicationsTable = ({
 
   return (
     <div className="flex h-full min-h-0 w-full min-w-0 flex-col">
-      <div className="flex items-center py-2">
+      <div className="flex items-center pt-2 pb-4">
         <Input
           placeholder="Search for applications..."
           onChange={(e) => table.setGlobalFilter(String(e.target.value))}
           className="max-w-sm"
         />
       </div>
-      <div className="min-h-0 flex-1 overflow-auto">
+      <div className="min-h-0 flex-1  overflow-auto">
         <Table className="table-fixed">
-          <TableCaption>A list of all your applications</TableCaption>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
