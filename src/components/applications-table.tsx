@@ -51,7 +51,7 @@ const ApplicationsTable = ({
     getFilteredRowModel: getFilteredRowModel(),
     initialState: {
       pagination: {
-        pageSize: 8, // change this to whatever you want
+        pageSize: 8,
       },
     },
     state: {
