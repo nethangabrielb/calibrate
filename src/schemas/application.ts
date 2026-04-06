@@ -1,5 +1,7 @@
 import * as z from "zod";
 
+import { ApplicationFormData } from "@/types/application";
+
 export const ApplicationFormSchema = z.object({
   title: z
     .string()
@@ -28,7 +30,26 @@ export const ApplicationFormSchema = z.object({
     .optional(),
 });
 
-type ApplicationFormData = z.infer<typeof ApplicationFormSchema>;
+export const ApplicationStatusSchema = z.enum([
+  "APPLIED",
+  "INTERVIEWING",
+  "OFFERED",
+  "REJECTED",
+]);
+
+export const ApplicationSchema = z.object({
+  id: z.number().int().positive(),
+  userId: z.string(),
+  company: z.string().min(1, "Company is required"),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  location: z.string().nullable(),
+  salary: z.number().int().positive().nullable(),
+  salaryCurrency: z.string().nullable(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  status: ApplicationStatusSchema,
+});
 
 export type FormState =
   | {
