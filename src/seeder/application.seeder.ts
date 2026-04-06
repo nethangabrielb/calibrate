@@ -56,7 +56,15 @@ async function seed() {
     process.exit(1);
   }
 
-  const jobCount = faker.number.int({ min: 5, max: 15 });
+  const deletedJobs = await prisma.job.deleteMany({
+    where: { userId: USER_ID },
+  });
+
+  console.log(
+    `🧹 Deleted ${deletedJobs.count} existing jobs for ${user.email}.`,
+  );
+
+  const jobCount = 25;
 
   await Promise.all(
     Array.from({ length: jobCount }).map(() => {
