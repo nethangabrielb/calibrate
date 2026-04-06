@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import ApplicationsTable from "@/components/applications-table";
 import ApplicationsTableSkeleton from "@/components/applications-table-skeleton";
+import { columns } from "@/components/columns";
 
 const JobApplication = () => {
   const { data, isLoading, isError } = useQuery({
@@ -23,7 +24,7 @@ const JobApplication = () => {
         <h1 className="text-2xl font-medium">Job Applications</h1>
         <p>Manage your job applications in one place.</p>
       </div>
-      {data && <ApplicationsTable applications={data.data} />}
+      {data && <ApplicationsTable applications={data.data} columns={columns} />}
       {isLoading && <ApplicationsTableSkeleton />}
     </div>
   );

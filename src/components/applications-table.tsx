@@ -1,3 +1,9 @@
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { Pencil, Trash } from "lucide-react";
 
 import {
@@ -15,12 +21,21 @@ import { cn } from "@/lib/utils";
 
 import { Application } from "@/types/application";
 
+interface ApplicationsTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  applications: Application[];
+}
+
 const ApplicationsTable = ({
   applications,
-}: {
-  applications: Application[];
-}) => {
-  console.log(applications);
+  columns,
+}: ApplicationsTableProps<Application, unknown>) => {
+  const table = useReactTable({
+    data: applications,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
   const statusColors = (
     status: "APPLIED" | "INTERVIEWING" | "OFFERED" | "REJECTED",
   ) => {
@@ -42,59 +57,79 @@ const ApplicationsTable = ({
     <Table>
       <TableCaption>A list of all your applications</TableCaption>
       <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Title</TableHead>
-          <TableHead>Company</TableHead>
-          <TableHead>Location</TableHead>
-          <TableHead className="text-center">Salary</TableHead>
-          <TableHead>Created At</TableHead>
-          <TableHead>Updated At</TableHead>
-          <TableHead className="text-center">Status</TableHead>
-          <TableHead>Analysis Score</TableHead>
-          <TableHead>Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {applications.map((application) => (
-          <TableRow key={application.id}>
-            <TableCell className="font-medium">{application.title}</TableCell>
-            <TableCell>{application.company}</TableCell>
-            <TableCell>{application.location}</TableCell>
-            <TableCell className="text-center">
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: application?.salaryCurrency || "USD",
-              }).format(application?.salary || 0)}
-            </TableCell>
-            <TableCell>
-              {application?.createdAt && formatDate(application.createdAt)}
-            </TableCell>
-            <TableCell>
-              {application?.updatedAt && formatDate(application.updatedAt)}
-            </TableCell>
-            <TableCell className="text-center">
-              <span
-                className={cn(
-                  "bg-blue-100 px-2 py-1 rounded-md",
-                  statusColors(application?.status),
-                )}
-              >
-                {application?.status}
-              </span>
-            </TableCell>
-            <TableCell>
-              {application?.analyses?.[0]?.score?.toFixed(2)}
-            </TableCell>
-            <TableCell>
-              <button className="bg-blue-400 text-white p-1 rounded-md cursor-pointer">
-                <Pencil size={18}></Pencil>
-              </button>
-              <button className="bg-destructive/80 text-white p-1 rounded-md ml-2 cursor-pointer">
-                <Trash size={18}></Trash>
-              </button>
-            </TableCell>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow key={headerGroup.id}>
+            {headerGroup.headers.map((header) => {
+              return (
+                <TableHead
+                  key={header.id}
+                  className={
+                    header.getContext().column.id === "analysisScore" ||
+                    header.getContext().column.id === "status"
+                      ? "text-center"
+                      : ""
+                  }
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                </TableHead>
+              );
+            })}
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         ))}
+      </TableHeader>
+      <TableBody>
+        {table.getRowModel().rows?.length ? (
+          table.getRowModel().rows.map((row) => (
+            <TableRow
+              key={row.id}
+              data-state={row.getIsSelected() && "selected"}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <TableCell
+                  key={cell.id}
+                  className={cn(
+                    cell.column.id === "salary" ||
+                      (cell.column.id === "analysisScore" && "text-center") ||
+                      (cell.column.id === "status" && "text-center"),
+                  )}
+                >
+                  {cell.column.id === "status" ? (
+                    <span
+                      className={cn(
+                        "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
+                        statusColors(cell.getValue() as any),
+                      )}
+                    >
+                      {cell.getValue() as Application["status"]}
+                    </span>
+                  ) : (
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )}
+                </TableCell>
+              ))}
+              <TableCell className="text-center">
+                <button className="bg-blue-400 text-white p-1 rounded-md cursor-pointer">
+                  <Pencil size={18}></Pencil>
+                </button>
+                <button className="bg-destructive/80 text-white p-1 rounded-md ml-2 cursor-pointer">
+                  <Trash size={18}></Trash>
+                </button>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={columns.length} className="h-24 text-center">
+              No results.
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );
