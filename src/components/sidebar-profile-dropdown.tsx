@@ -30,7 +30,7 @@ const ProfileDropdown = ({ user }: { user: any }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 p-4 overflow-hidden rounded-lg hover:cursor-pointer hover:bg-sidebar-accent-foreground/40 transition-all duration-200">
+        <button className="flex items-center gap-2 p-4 overflow-hidden rounded-lg hover:cursor-pointer hover:bg-sidebar-accent-foreground/40 transition-all duration-200 w-full">
           <img
             src={user.image || "/default-profile.jpg"}
             alt="Profile"
@@ -47,7 +47,7 @@ const ProfileDropdown = ({ user }: { user: any }) => {
               {user.email}
             </p>
           </div>
-          <EllipsisVertical></EllipsisVertical>
+          <EllipsisVertical className="ml-auto" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

@@ -46,9 +46,11 @@ export default async function RootLayout({
       >
         <Toaster richColors position="top-right" theme="light" />
         {/* Sidebar here only visible for authenticated users */}
-        <main className="flex justify-center items-center">
+        <main className="flex min-h-svh w-full items-stretch justify-start overflow-hidden">
           <Sidebar user={user} />
-          <QueryProvider>{children}</QueryProvider>
+          <div className="h-full min-w-0 flex-1 overflow-hidden">
+            <QueryProvider>{children}</QueryProvider>
+          </div>
         </main>
       </body>
     </html>

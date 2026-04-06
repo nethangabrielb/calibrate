@@ -22,7 +22,7 @@ const Sidebar = ({ user }: { user: any }) => {
 
   return (
     <Activity mode={isVisible ? "visible" : "hidden"}>
-      <div className="lg:w-80 min-h-screen bg-primary text-sidebar-primary-foreground p-2 border-r border-sidebar-border flex flex-col">
+      <div className="lg:w-72 lg:max-w-72 min-h-screen shrink-0 bg-primary text-sidebar-primary-foreground p-2 border-r border-sidebar-border flex flex-col">
         <div className="mb-6 px-4">
           <img
             src="/calibrate.svg"
@@ -49,7 +49,7 @@ const Sidebar = ({ user }: { user: any }) => {
           Add Application
         </Button>
 
-        <section className="mt-auto">
+        <section className="mt-auto w-full">
           {/* User Profile */}
           {user && <ProfileDropdown user={user}></ProfileDropdown>}
         </section>

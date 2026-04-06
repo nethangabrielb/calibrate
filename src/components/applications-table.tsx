@@ -66,9 +66,9 @@ const ApplicationsTable = ({
   };
 
   return (
-    <div>
-      <div className="overflow-hidden">
-        <Table>
+    <div className="flex h-full min-h-0 w-full min-w-0 flex-col">
+      <div className="min-h-0 flex-1 overflow-auto">
+        <Table className="table-fixed">
           <TableCaption>A list of all your applications</TableCaption>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -77,13 +77,14 @@ const ApplicationsTable = ({
                   return (
                     <TableHead
                       key={header.id}
-                      className={
+                      className={cn(
+                        "whitespace-normal wrap-break-word",
                         header.getContext().column.id === "analysisScore" ||
-                        header.getContext().column.id === "status" ||
-                        header.getContext().column.id === "actions"
+                          header.getContext().column.id === "status" ||
+                          header.getContext().column.id === "actions"
                           ? "text-center"
-                          : ""
-                      }
+                          : "",
+                      )}
                     >
                       {header.isPlaceholder
                         ? null
@@ -108,6 +109,7 @@ const ApplicationsTable = ({
                     <TableCell
                       key={cell.id}
                       className={cn(
+                        "whitespace-normal wrap-break-word",
                         cell.column.id === "salary" ||
                           (cell.column.id === "analysisScore" &&
                             "text-center") ||

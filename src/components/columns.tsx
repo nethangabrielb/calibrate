@@ -36,6 +36,7 @@ export const columns: ColumnDef<Application>[] = [
       return (
         <Button
           variant="ghost"
+          className="h-auto px-1 py-1 whitespace-normal!"
           onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
         >
           Salary
@@ -63,6 +64,7 @@ export const columns: ColumnDef<Application>[] = [
       return (
         <Button
           variant="ghost"
+          className="h-auto px-1 py-1"
           onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
         >
           Created At
@@ -87,6 +89,7 @@ export const columns: ColumnDef<Application>[] = [
       return (
         <Button
           variant="ghost"
+          className="h-auto px-1 py-1"
           onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
         >
           Analysis Score
