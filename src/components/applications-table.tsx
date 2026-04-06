@@ -1,11 +1,16 @@
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Pencil, Trash } from "lucide-react";
 
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -29,10 +34,18 @@ const ApplicationsTable = ({
   applications,
   columns,
 }: ApplicationsTableProps<Application, unknown>) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data: applications,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   });
 
   const statusColors = (
@@ -53,77 +66,106 @@ const ApplicationsTable = ({
   };
 
   return (
-    <Table>
-      <TableCaption>A list of all your applications</TableCaption>
-      <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
-                <TableHead
-                  key={header.id}
-                  className={
-                    header.getContext().column.id === "analysisScore" ||
-                    header.getContext().column.id === "status" ||
-                    header.getContext().column.id === "actions"
-                      ? "text-center"
-                      : ""
-                  }
+    <div>
+      <div className="overflow-hidden">
+        <Table>
+          <TableCaption>A list of all your applications</TableCaption>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      className={
+                        header.getContext().column.id === "analysisScore" ||
+                        header.getContext().column.id === "status" ||
+                        header.getContext().column.id === "actions"
+                          ? "text-center"
+                          : ""
+                      }
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
                 >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell
-                  key={cell.id}
-                  className={cn(
-                    cell.column.id === "salary" ||
-                      (cell.column.id === "analysisScore" && "text-center") ||
-                      (cell.column.id === "status" && "text-center") ||
-                      (cell.column.id === "actions" && "text-center"),
-                  )}
-                >
-                  {cell.column.id === "status" ? (
-                    <span
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
                       className={cn(
-                        "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-                        statusColors(cell.getValue() as any),
+                        cell.column.id === "salary" ||
+                          (cell.column.id === "analysisScore" &&
+                            "text-center") ||
+                          (cell.column.id === "status" && "text-center") ||
+                          (cell.column.id === "actions" && "text-center"),
                       )}
                     >
-                      {cell.getValue() as Application["status"]}
-                    </span>
-                  ) : (
-                    flexRender(cell.column.columnDef.cell, cell.getContext())
-                  )}
+                      {cell.column.id === "status" ? (
+                        <span
+                          className={cn(
+                            "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
+                            statusColors(cell.getValue() as any),
+                          )}
+                        >
+                          {cell.getValue() as Application["status"]}
+                        </span>
+                      ) : (
+                        flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
                 </TableCell>
-              ))}
-            </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell colSpan={columns.length} className="h-24 text-center">
-              No results.
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
+    </div>
   );
 };
 

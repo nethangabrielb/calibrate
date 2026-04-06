@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Pencil, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,7 +33,17 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "salary",
-    header: "Salary",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+        >
+          Salary
+          <ArrowUpDown className=" h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const salary = row.original.salary;
 
@@ -50,7 +60,17 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+        >
+          Created At
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => formatDate(row.original.createdAt),
   },
   {
@@ -64,7 +84,17 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     id: "analysisScore",
-    header: "Analysis Score",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+        >
+          Analysis Score
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const score = row.original.analyses?.[0]?.score;
       if (score == null) {
