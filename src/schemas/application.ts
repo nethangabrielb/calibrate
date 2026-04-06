@@ -49,6 +49,7 @@ export const ApplicationSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   status: ApplicationStatusSchema,
+  analyses: z.array(z.object({ score: z.number().min(0).max(100) })).optional(),
 });
 
 export type FormState =
