@@ -66,7 +66,7 @@ export const columns: ColumnDef<Application>[] = [
         <Button
           variant="ghost"
           className="h-auto px-1 py-1"
-          onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Created At
           <ArrowUpDown className="h-4 w-4" />
