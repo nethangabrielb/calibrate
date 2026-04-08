@@ -26,7 +26,7 @@ export const createApplication = async (
     description: formData.get("description"),
     company: formData.get("company"),
     location: formData.get("location"),
-    salary: formData.get("salary"),
+    salary: Number(formData.get("salary")),
     salaryCurrency: formData.get("salaryCurrency"),
   };
 
@@ -41,11 +41,16 @@ export const createApplication = async (
     };
   }
 
+  const updatedFieldsData = {
+    ...validatedFields.data,
+    salary: Number(validatedFields.data.salary),
+  };
+
   try {
     const application = await prisma.job.create({
       data: {
         userId: user.id,
-        ...validatedFields.data,
+        ...updatedFieldsData,
       },
     });
 
@@ -57,7 +62,7 @@ export const createApplication = async (
       success: false,
       error: error,
       message: "An error occurred while creating the application.",
-      data: validatedFields.data,
+      data: updatedFieldsData,
     };
   }
 

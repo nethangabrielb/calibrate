@@ -2,12 +2,15 @@
 
 import { useQuery } from "@tanstack/react-query";
 
+import { useRouter } from "next/navigation";
+
 import ApplicationsTable from "@/components/applications-table";
 import ApplicationsTableSkeleton from "@/components/applications-table-skeleton";
 import { columns } from "@/components/columns";
 import { Button } from "@/components/ui/button";
 
 const JobApplication = () => {
+  const router = useRouter();
   const { data, isLoading } = useQuery({
     queryKey: ["applications"],
     queryFn: async () => {
@@ -24,9 +27,16 @@ const JobApplication = () => {
       <section className="flex justify-between items-center w-full">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-medium">Job Applications</h1>
-          <p>Manage your job applications in one place.</p>
+          <p className="text-sm text-muted-foreground">
+            Manage your job applications in one place.
+          </p>
         </div>
-        <Button className="w-fit">New Application</Button>
+        <Button
+          className="w-fit"
+          onClick={() => router.push("/job-applications/new")}
+        >
+          New Application
+        </Button>
       </section>
       <div className="min-h-0 flex-1">
         {data && (
