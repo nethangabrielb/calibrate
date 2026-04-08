@@ -20,9 +20,9 @@ export const GET = async (_request: NextRequest) => {
   try {
     const applications = await prisma.job.findMany({
       where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
       include: {
         analyses: {
-          orderBy: { createdAt: "desc" },
           select: {
             score: true,
           },
