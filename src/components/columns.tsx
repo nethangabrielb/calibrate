@@ -133,12 +133,7 @@ export const columns: ColumnDef<Application>[] = [
                 href={`/job-applications/edit/${row.original.id}`}
               >
                 <Pencil className="h-4 w-4 shrink-0" />
-                <Link
-                  href={`/job-applications/edit/${row.original.id}`}
-                  className="leading-none select-none"
-                >
-                  Edit
-                </Link>
+                <span className="leading-none select-none">Edit</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2 py-1.5 cursor-pointer transition-all text-destructive">
