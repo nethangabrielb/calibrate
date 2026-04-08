@@ -34,8 +34,6 @@ export const GET = async (
       },
     });
 
-    console.log(application);
-
     if (!application) {
       throw new Error("Failed to fetch application");
     }

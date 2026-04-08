@@ -18,7 +18,7 @@ const EditJobApplicationPage = ({
 }) => {
   const { id } = use(params);
   const bound = updateApplication.bind(null, Number(id));
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["application", id],
     queryFn: async () => {
       const res = await fetch(`/api/applications/${id}`);
@@ -53,7 +53,7 @@ const EditJobApplicationPage = ({
         </Link>
       </section>
 
-      <ApplicationForm formAction={bound} data={data} />
+      <ApplicationForm formAction={bound} data={data} edit={true} />
     </div>
   );
 };

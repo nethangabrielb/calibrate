@@ -7,6 +7,7 @@ import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { TextField } from "@/components/input";
+import { StatusSelect } from "@/components/status-dropdown";
 
 import { FormState } from "@/schemas/application";
 
@@ -15,9 +16,11 @@ import { Application } from "@/types/application";
 const ApplicationForm = ({
   formAction,
   data,
+  edit = false,
 }: {
   formAction: (state: FormState, formData: FormData) => Promise<FormState>;
   data?: Application;
+  edit?: boolean;
 }) => {
   const router = useRouter();
   const [state, action, pending] = useActionState<FormState, FormData>(
@@ -84,6 +87,11 @@ const ApplicationForm = ({
               className="flex-1"
             ></TextField>
           </div>
+          {edit && data && (
+            <StatusSelect
+              defaultStatus={state?.data?.status ?? data?.status}
+            ></StatusSelect>
+          )}
         </div>
 
         {/* Scaffold placeholder: swap in project Button and pending state handling. */}

@@ -121,8 +121,9 @@ export async function updateApplication(
     description: formData.get("description"),
     company: formData.get("company"),
     location: formData.get("location"),
-    salary: formData.get("salary"),
+    salary: Number(formData.get("salary")),
     salaryCurrency: formData.get("salaryCurrency"),
+    status: formData.get("status"),
   };
 
   const validatedFields = ApplicationFormSchema.safeParse(applicationData);
