@@ -127,11 +127,11 @@ export const columns: ColumnDef<Application>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-            <Link
-              className="flex items-center gap-2 py-1.5 cursor-pointer transition-all w-full"
-              href={`/job-applications/edit/${row.original.id}`}
-            >
-              <DropdownMenuItem className="w-full cursor-pointer">
+            <DropdownMenuItem className="w-full cursor-pointer" asChild>
+              <Link
+                className="flex items-center gap-2 py-1.5 cursor-pointer transition-all w-full"
+                href={`/job-applications/edit/${row.original.id}`}
+              >
                 <Pencil className="h-4 w-4 shrink-0" />
                 <Link
                   href={`/job-applications/edit/${row.original.id}`}
@@ -139,8 +139,8 @@ export const columns: ColumnDef<Application>[] = [
                 >
                   Edit
                 </Link>
-              </DropdownMenuItem>
-            </Link>
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2 py-1.5 cursor-pointer transition-all text-destructive">
               <Trash className="h-4 w-4 shrink-0 text-destructive" />
               <span className="leading-none select-none text-destructive">

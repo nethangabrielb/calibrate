@@ -22,7 +22,13 @@ export const ApplicationFormSchema = z.object({
     .string()
     .min(2, "Location too short")
     .max(100, "Location too long"),
-  salary: z.number().positive("Salary must be greater than 0").optional(),
+  salary: z
+    .number()
+    .refine(
+      (value) => typeof value === "number" && value >= 0,
+      "Salary must be a positive number",
+    )
+    .optional(),
   salaryCurrency: z
     .string()
     .length(3, "Currency must be 3 letters")
