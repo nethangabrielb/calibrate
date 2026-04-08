@@ -30,6 +30,15 @@ export const createApplication = async (
     salaryCurrency: formData.get("salaryCurrency"),
   };
 
+  const initialData = {
+    title: formData.get("title") as string,
+    description: formData.get("description") as string,
+    company: formData.get("company") as string,
+    location: formData.get("location") as string,
+    salary: Number(formData.get("salary")),
+    salaryCurrency: formData.get("salaryCurrency") as string,
+  };
+
   const validatedFields = ApplicationFormSchema.safeParse(applicationData);
 
   if (!validatedFields.success) {
@@ -37,7 +46,7 @@ export const createApplication = async (
 
     return {
       errors: flattened.fieldErrors,
-      data: validatedFields.data,
+      data: initialData,
     };
   }
 

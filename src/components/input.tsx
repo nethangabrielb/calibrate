@@ -21,6 +21,7 @@ type TextFieldProps = Omit<React.ComponentProps<typeof Input>, "id"> & {
   description?: React.ReactNode;
   error?: React.ReactNode;
   type?: React.ComponentProps<"input">["type"] | "textarea";
+  value?: string | number;
   wrapperClassName?: string;
   labelClassName?: string;
   descriptionClassName?: string;
@@ -43,6 +44,7 @@ const TextField = React.forwardRef<
       description,
       error,
       className,
+      value,
       wrapperClassName,
       labelClassName,
       descriptionClassName,
@@ -98,6 +100,7 @@ const TextField = React.forwardRef<
                 required={required}
                 aria-invalid={hasError}
                 aria-describedby={describedBy || undefined}
+                value={value}
                 className={cn(
                   "rounded-lg bg-background/90 shadow-sm",
                   "focus-visible:ring-2 focus-visible:ring-primary/40",
@@ -121,6 +124,7 @@ const TextField = React.forwardRef<
                   ref={ref as React.Ref<HTMLInputElement>}
                   id={inputId}
                   type={type}
+                  value={value}
                   required={required}
                   aria-invalid={hasError}
                   aria-describedby={describedBy || undefined}
@@ -136,6 +140,7 @@ const TextField = React.forwardRef<
                 ref={ref as React.Ref<HTMLInputElement>}
                 id={inputId}
                 type={type}
+                value={value}
                 required={required}
                 aria-invalid={hasError}
                 aria-describedby={describedBy || undefined}

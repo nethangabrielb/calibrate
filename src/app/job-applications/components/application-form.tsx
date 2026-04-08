@@ -21,8 +21,6 @@ const ApplicationForm = ({
     undefined,
   );
 
-  console.log(state);
-
   useEffect(() => {
     if (state?.success) {
       // Reset form on successful submission
@@ -44,12 +42,12 @@ const ApplicationForm = ({
               error={state?.errors?.company?.[0]}
               required
               name="company"
-              value={state?.data?.company}
+              defaultValue={state?.data?.company ?? ""}
             ></TextField>
             <TextField
               label="Job Title"
               error={state?.errors?.title?.[0]}
-              value={state?.data?.title}
+              defaultValue={state?.data?.title ?? ""}
               required
               name="title"
             ></TextField>
@@ -58,7 +56,7 @@ const ApplicationForm = ({
             label="Job Description"
             type="textarea"
             error={state?.errors?.description?.[0]}
-            value={state?.data?.description}
+            defaultValue={state?.data?.description ?? ""}
             name="description"
             required
           ></TextField>
@@ -68,14 +66,14 @@ const ApplicationForm = ({
               error={state?.errors?.location?.[0]}
               className="flex-1"
               name="location"
-              value={state?.data?.location}
+              defaultValue={state?.data?.location ?? ""}
             ></TextField>
             <TextField
               label="Salary"
               type="number"
               error={state?.errors?.salary?.[0]}
               name="salary"
-              value={state?.data?.salary}
+              defaultValue={state?.data?.salary ?? ""}
               className="flex-1"
             ></TextField>
           </div>
