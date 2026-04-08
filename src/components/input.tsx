@@ -29,6 +29,7 @@ type TextFieldProps = Omit<React.ComponentProps<typeof Input>, "id"> & {
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   orientation?: "vertical" | "horizontal" | "responsive";
+  defaultCurrency?: string;
   requiredIndicator?: React.ReactNode;
 };
 
@@ -51,6 +52,7 @@ const TextField = React.forwardRef<
       errorClassName,
       startAdornment,
       endAdornment,
+      defaultCurrency,
       orientation = "vertical",
       required,
       requiredIndicator = <span className="text-destructive">*</span>,
@@ -119,7 +121,7 @@ const TextField = React.forwardRef<
                   className,
                 )}
               >
-                <CurrencySelect />
+                <CurrencySelect defaultCurrency={defaultCurrency} />
                 <Input
                   ref={ref as React.Ref<HTMLInputElement>}
                   id={inputId}

@@ -3,6 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Pencil, Trash } from "lucide-react";
 
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -125,10 +127,20 @@ export const columns: ColumnDef<Application>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-            <DropdownMenuItem className="flex items-center gap-2 py-1.5 cursor-pointer transition-all">
-              <Pencil className="h-4 w-4 shrink-0" />
-              <span className="leading-none select-none">Edit</span>
-            </DropdownMenuItem>
+            <Link
+              className="flex items-center gap-2 py-1.5 cursor-pointer transition-all w-full"
+              href={`/job-applications/edit/${row.original.id}`}
+            >
+              <DropdownMenuItem className="w-full cursor-pointer">
+                <Pencil className="h-4 w-4 shrink-0" />
+                <Link
+                  href={`/job-applications/edit/${row.original.id}`}
+                  className="leading-none select-none"
+                >
+                  Edit
+                </Link>
+              </DropdownMenuItem>
+            </Link>
             <DropdownMenuItem className="flex items-center gap-2 py-1.5 cursor-pointer transition-all text-destructive">
               <Trash className="h-4 w-4 shrink-0 text-destructive" />
               <span className="leading-none select-none text-destructive">

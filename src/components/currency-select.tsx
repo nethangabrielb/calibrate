@@ -9,9 +9,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function CurrencySelect() {
+export function CurrencySelect({
+  defaultCurrency,
+}: Readonly<{
+  defaultCurrency?: string;
+}>) {
   return (
-    <Select name="salaryCurrency" required>
+    <Select name="salaryCurrency" required defaultValue={defaultCurrency}>
       <SelectTrigger className="w-fit h-full! m-0 rounded-r-none">
         <SelectValue placeholder="Select a currency" />
       </SelectTrigger>

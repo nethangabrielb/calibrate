@@ -10,10 +10,14 @@ import { TextField } from "@/components/input";
 
 import { FormState } from "@/schemas/application";
 
+import { Application } from "@/types/application";
+
 const ApplicationForm = ({
   formAction,
+  data,
 }: {
   formAction: (state: FormState, formData: FormData) => Promise<FormState>;
+  data?: Application;
 }) => {
   const router = useRouter();
   const [state, action, pending] = useActionState<FormState, FormData>(
@@ -42,12 +46,12 @@ const ApplicationForm = ({
               error={state?.errors?.company?.[0]}
               required
               name="company"
-              defaultValue={state?.data?.company ?? ""}
+              defaultValue={state?.data?.company ?? data?.company ?? ""}
             ></TextField>
             <TextField
               label="Job Title"
               error={state?.errors?.title?.[0]}
-              defaultValue={state?.data?.title ?? ""}
+              defaultValue={state?.data?.title ?? data?.title ?? ""}
               required
               name="title"
             ></TextField>
@@ -56,7 +60,7 @@ const ApplicationForm = ({
             label="Job Description"
             type="textarea"
             error={state?.errors?.description?.[0]}
-            defaultValue={state?.data?.description ?? ""}
+            defaultValue={state?.data?.description ?? data?.description ?? ""}
             name="description"
             required
           ></TextField>
@@ -66,14 +70,17 @@ const ApplicationForm = ({
               error={state?.errors?.location?.[0]}
               className="flex-1"
               name="location"
-              defaultValue={state?.data?.location ?? ""}
+              defaultValue={state?.data?.location ?? data?.location ?? ""}
             ></TextField>
             <TextField
               label="Salary"
               type="number"
               error={state?.errors?.salary?.[0]}
               name="salary"
-              defaultValue={state?.data?.salary ?? ""}
+              defaultValue={state?.data?.salary ?? data?.salary ?? ""}
+              defaultCurrency={
+                state?.data?.salaryCurrency ?? data?.salaryCurrency ?? "USD"
+              }
               className="flex-1"
             ></TextField>
           </div>
