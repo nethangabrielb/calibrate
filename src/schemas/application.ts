@@ -34,7 +34,7 @@ export const ApplicationFormSchema = z.object({
     .length(3, "Currency must be 3 letters")
     .regex(/^[A-Z]{3}$/, "Use ISO 4217 code (e.g., USD)")
     .optional(),
-  status: z.enum(["APPLIED", "INTERVIEWING", "OFFERED", "REJECTED"]),
+  status: z.enum(["APPLIED", "INTERVIEWING", "OFFERED", "REJECTED"]).optional(),
 });
 
 export const ApplicationStatusSchema = z.enum([

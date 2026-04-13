@@ -5,6 +5,7 @@ import { ArrowUpDown, MoreHorizontal, Pencil, Trash } from "lucide-react";
 
 import Link from "next/link";
 
+import { DeleteDialog } from "@/components/delete-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -136,12 +137,7 @@ export const columns: ColumnDef<Application>[] = [
                 <span className="leading-none select-none">Edit</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2 py-1.5 cursor-pointer transition-all text-destructive">
-              <Trash className="h-4 w-4 shrink-0 text-destructive" />
-              <span className="leading-none select-none text-destructive">
-                Delete
-              </span>
-            </DropdownMenuItem>
+            <DeleteDialog applicationId={row.original.id}></DeleteDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       );
