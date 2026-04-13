@@ -23,6 +23,9 @@ export const GET = async (_request: NextRequest) => {
       orderBy: { createdAt: "desc" },
       include: {
         analyses: {
+          orderBy: {
+            createdAt: "desc",
+          },
           select: {
             score: true,
           },

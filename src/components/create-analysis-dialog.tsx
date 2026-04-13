@@ -1,5 +1,7 @@
 import { FormState, UseFormRegister } from "react-hook-form";
 
+import { useEffect, useState } from "react";
+
 import { TextField } from "@/components/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,17 +20,33 @@ export function CreateAnalysisDialog({
   register,
   errors,
   handleSubmit,
+  isSubmitting,
+  buttonText,
+  isSubmitSuccessful,
 }: Readonly<{
   register: UseFormRegister<{ resume: string }>;
   errors: FormState<{ resume: string }>["errors"];
   handleSubmit: React.SubmitEventHandler<HTMLFormElement>;
+  isSubmitting: boolean;
+  buttonText?: string;
+  isSubmitSuccessful?: boolean;
 }>) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      setIsOpen(false);
+    }
+  }, [isSubmitSuccessful]);
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="mt-5 w-fit cursor-pointer">Run AI Analysis</Button>
+        <Button className="w-fit cursor-pointer">
+          {buttonText || "Run AI Analysis"}
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="sm:max-w-sm max-h-[85vh] overflow-y-auto">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle>Run AI Analysis</DialogTitle>
@@ -42,15 +60,20 @@ export function CreateAnalysisDialog({
               label="Resume"
               type="textarea"
               placeholder="Enter your resume here"
+              // Scaffold: wire a saved resume value here later if you persist one.
               {...register("resume")}
               error={errors.resume?.message}
+              className="field-sizing-fixed min-h-40 max-h-[45vh] resize-y overflow-y-auto"
             />
           </Field>
           <DialogFooter className="pt-0">
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Analyzing..." : "Analyze"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -46,7 +46,7 @@ model Analysis {
   id             Int      @id @default(autoincrement())
   jobId          Int
   job            Job      @relation(fields: [jobId], references: [id])
-  score          Float
+  score          Int
   matchingSkills String[]
   missingSkills  String[]
   recommendation String

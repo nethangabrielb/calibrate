@@ -1,9 +1,11 @@
 "use client";
 
+import { AnalysisPanel } from "@/app/job-applications/components/analysis-panel";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 import { use } from "react";
@@ -16,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
+import { Analysis } from "@/types/analysis";
 import { Application } from "@/types/application";
 
 const ResumeSchema = z.object({
@@ -28,6 +31,7 @@ const ResumeSchema = z.object({
 type ResumeFormData = z.infer<typeof ResumeSchema>;
 
 const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
+  const queryClient = useQueryClient();
   const { id } = use(params);
 
   const { data } = useQuery<Application>({
@@ -46,12 +50,29 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
     enabled: !!id,
   });
 
+  const { data: analyses } = useQuery<{
+    success: boolean;
+    data: Analysis[];
+  }>({
+    queryKey: ["analyses", id],
+    queryFn: async () => {
+      const res = await fetch(`/api/analysis/${id}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch analyses");
+      }
+
+      const json = await res.json();
+
+      return json;
+    },
+    enabled: !!id,
+  });
+
   const {
     register,
     handleSubmit,
-    getValues,
-    watch,
-    formState: { errors },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<ResumeFormData>({
     resolver: zodResolver(ResumeSchema),
   });
@@ -73,15 +94,36 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
     }
   };
 
-  const onSubmit: SubmitHandler<ResumeFormData> = (data) => {
-    console.log("Form submitted with data:", data);
+  const onSubmit: SubmitHandler<ResumeFormData> = async (_data) => {
+    const resume = _data.resume;
+
+    const res = await fetch(`/api/analysis/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ resume }),
+    });
+
+    if (!res.ok) {
+      console.error("Failed to run analysis");
+      return;
+    }
+
+    const json = await res.json();
+
+    if (json.success) {
+      queryClient.invalidateQueries({ queryKey: ["analyses", id] });
+      toast.success(json.message || "Analysis created successfully!");
+    } else {
+      toast.error(json.message || "Failed to run analysis");
+    }
   };
 
   return (
     <div className="flex h-screen w-full min-w-0 gap-6 bg-background px-8 py-4 text-foreground">
-      {/* Job Application Section */}
-      <div className="flex w-full h-fit justify-between flex-col flex-1">
-        <section className="flex flex-col flex-1 gap-2">
+      <div className="flex w-full flex-col flex-1 min-h-0">
+        <section className="flex flex-col gap-2 h-fit">
           <h1 className="font-medium text-2xl">{data?.title}</h1>
           <h3 className="text-[16px] font-normal text-secondary-foreground">
             {data?.company}
@@ -126,16 +168,16 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
             {data?.status}
           </div>
         </section>
-        <main>
-          <section className="flex flex-col gap-2 mt-4">
-            <h1 className="text-xl font-medium">Full Job Description</h1>
-            <p className="font-light">{data?.description}</p>
-          </section>
-        </main>
+        <section className="flex flex-col gap-2 mt-4 border border-border rounded-lg p-4 min-h-0 flex-1 overflow-hidden shadow-sm backdrop-blur-sm">
+          <h1 className="text-xl font-medium shrink-0">Full Job Description</h1>
+          <p className="font-light overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-border/70 scrollbar-track-transparent">
+            {data?.description}
+          </p>
+        </section>
       </div>
 
       {/* AI Analysis Section */}
-      <div className="flex flex-1 flex-col gap-4 rounded-2xl border border-border/70 bg-card/70 p-6 shadow-sm backdrop-blur-sm">
+      <div className="flex flex-1 flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-lg backdrop-blur-sm">
         <header className="flex items-center justify-between gap-4">
           <h1 className="text-2xl font-medium tracking-tight">AI Analysis</h1>
           <Link
@@ -149,18 +191,34 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
           </Link>
         </header>
 
-        <div className="flex flex-1 flex-col justify-center items-center px-5 py-8">
-          <p className="max-w-md text-sm leading-6 text-muted-foreground text-center">
-            It seems this application does not have any AI analysis available
-            yet. Click the button below to run an AI analysis on this
-            application and get insights on how to improve it.
-          </p>
-          <CreateAnalysisDialog
-            register={register}
-            errors={errors}
-            handleSubmit={handleSubmit(onSubmit)}
-          />
-        </div>
+        {analyses && analyses?.data?.length > 0 ? (
+          <AnalysisPanel analysis={analyses?.data?.[0]}>
+            <div className="flex flex-col items-center justify-center gap-3 px-5 py-3">
+              <CreateAnalysisDialog
+                register={register}
+                errors={errors}
+                handleSubmit={handleSubmit(onSubmit)}
+                isSubmitting={isSubmitting}
+                buttonText="Re-run AI Analysis"
+              />
+            </div>
+          </AnalysisPanel>
+        ) : (
+          <div className="flex flex-1 flex-col justify-center items-center px-5 py-8 gap-4">
+            <p className="max-w-md text-sm leading-6 text-muted-foreground text-center">
+              It seems this application does not have any AI analysis available
+              yet. Click the button below to run an AI analysis on this
+              application and get insights on how to improve it.
+            </p>
+            <CreateAnalysisDialog
+              register={register}
+              errors={errors}
+              handleSubmit={handleSubmit(onSubmit)}
+              isSubmitting={isSubmitting}
+              isSubmitSuccessful={isSubmitSuccessful}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

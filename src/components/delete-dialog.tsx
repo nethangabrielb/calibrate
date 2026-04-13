@@ -31,6 +31,8 @@ export function DeleteDialog({
     undefined,
   );
 
+  console.log(state);
+
   useEffect(() => {
     if (state?.success) {
       toast.success(state?.message ?? "Application deleted successfully!");
@@ -41,7 +43,10 @@ export function DeleteDialog({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="flex items-center gap-2 py-1.5 cursor-pointer transition-all text-destructive p-2 text-sm rounded-md hover:bg-destructive/10 mt-1 w-full">
+      <AlertDialogTrigger
+        className="flex items-center gap-2 py-1.5 cursor-pointer transition-all text-destructive p-2 text-sm rounded-md hover:bg-destructive/10 mt-1 w-full"
+        onClick={(e) => e.stopPropagation()}
+      >
         <Trash className="h-4 w-4 shrink-0 text-destructive" />
         <span className="leading-none select-none text-destructive">
           Delete
@@ -56,12 +61,15 @@ export function DeleteDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
+            Cancel
+          </AlertDialogCancel>
           <form action={action}>
             <AlertDialogAction
               className="bg-destructive! text-card-foreground hover:bg-red-600! cursor-pointer"
               type="submit"
               disabled={pending}
+              onClick={(e) => e.stopPropagation()}
             >
               {pending ? "Deleting..." : "Delete"}
             </AlertDialogAction>

@@ -194,6 +194,11 @@ export async function deleteApplication(id: number): Promise<FormState> {
   }
 
   try {
+    await prisma.analysis.deleteMany({
+      where: {
+        jobId: id,
+      },
+    });
     await prisma.job.delete({
       where: { id },
     });

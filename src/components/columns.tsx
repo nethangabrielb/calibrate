@@ -130,6 +130,7 @@ export const columns: ColumnDef<Application>[] = [
 
             <DropdownMenuItem className="w-full cursor-pointer" asChild>
               <Link
+                onClick={(e) => e.stopPropagation()}
                 className="flex items-center gap-2 py-1.5 cursor-pointer transition-all w-full"
                 href={`/job-applications/edit/${row.original.id}`}
               >

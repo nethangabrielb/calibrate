@@ -129,9 +129,11 @@ const ApplicationsTable = ({
                   className={
                     "cursor-pointer hover:bg-muted/50 data-[state=selected]:bg-muted"
                   }
-                  onClick={() =>
-                    router.push(`/job-applications/${row.original.id}`)
-                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    router.push(`/job-applications/${row.original.id}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
