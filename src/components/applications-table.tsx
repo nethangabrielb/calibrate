@@ -9,8 +9,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { router } from "better-auth/api";
 
 import { useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +40,7 @@ const ApplicationsTable = ({
   applications,
   columns,
 }: ApplicationsTableProps<Application, unknown>) => {
+  const router = useRouter();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -122,6 +126,12 @@ const ApplicationsTable = ({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={
+                    "cursor-pointer hover:bg-muted/50 data-[state=selected]:bg-muted"
+                  }
+                  onClick={() =>
+                    router.push(`/job-applications/${row.original.id}`)
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
