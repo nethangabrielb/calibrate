@@ -75,7 +75,7 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<ResumeFormData>({
     resolver: zodResolver(ResumeSchema),
   });

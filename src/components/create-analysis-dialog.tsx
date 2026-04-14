@@ -1,7 +1,5 @@
 import { FormState, UseFormRegister } from "react-hook-form";
 
-import { useEffect, useState } from "react";
-
 import { TextField } from "@/components/input";
 import { Button } from "@/components/ui/button";
 import {
