@@ -22,23 +22,17 @@ export function CreateAnalysisDialog({
   handleSubmit,
   isSubmitting,
   buttonText,
-  isSubmitSuccessful,
+  isOpen,
+  setIsOpen,
 }: Readonly<{
   register: UseFormRegister<{ resume: string }>;
   errors: FormState<{ resume: string }>["errors"];
   handleSubmit: React.SubmitEventHandler<HTMLFormElement>;
   isSubmitting: boolean;
   buttonText?: string;
-  isSubmitSuccessful?: boolean;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }>) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      setIsOpen(false);
-    }
-  }, [isSubmitSuccessful]);
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>

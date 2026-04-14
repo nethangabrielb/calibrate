@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { isUserAuthenticated } from "@/lib/isAuthenticated";
 import prisma from "@/lib/prisma";
+import { ratelimit } from "@/lib/rateLimit";
 
 export const GET = async (
   _request: NextRequest,
@@ -88,6 +89,27 @@ export const POST = async (
         message: "You must be logged in to create analyses.",
       },
       { status: 401 },
+    );
+  }
+
+  // check for rate limit
+  const { success, limit, remaining, reset } = await ratelimit.limit(user.id);
+
+  if (!success) {
+    return NextResponse.json(
+      {
+        success,
+        message: `Too many requests. Retry after ${Math.ceil((reset - Date.now()) / 1000 / 60)} minutes`,
+      },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": limit.toString(),
+          "X-RateLimit-Remaining": remaining.toString(),
+          "X-RateLimit-Reset": reset.toString(),
+          "Retry-After": Math.ceil((reset - Date.now()) / 1000).toString(),
+        },
+      },
     );
   }
 

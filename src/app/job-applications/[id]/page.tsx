@@ -10,7 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-import { use } from "react";
+import { use, useState } from "react";
 
 import Link from "next/link";
 
@@ -33,9 +33,9 @@ const ResumeSchema = z.object({
 type ResumeFormData = z.infer<typeof ResumeSchema>;
 
 const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const { id } = use(params);
-
   const { data, isPending: applicationPending } = useQuery<Application>({
     queryKey: ["application", id],
     queryFn: async () => {
@@ -60,11 +60,12 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
     queryFn: async () => {
       const res = await fetch(`/api/analysis/${id}`);
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch analyses");
-      }
-
       const json = await res.json();
+
+      if (!res.ok) {
+        toast.error(json.message || "Failed to fetch analyses.");
+        throw new Error(json.message || "Failed to fetch analyses.");
+      }
 
       return json;
     },
@@ -107,16 +108,18 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
       body: JSON.stringify({ resume }),
     });
 
+    const json = await res.json();
+
     if (!res.ok) {
+      toast.error(json.message || "Failed to run analysis.");
       console.error("Failed to run analysis");
       return;
     }
 
-    const json = await res.json();
-
     if (json.success) {
       queryClient.invalidateQueries({ queryKey: ["analyses", id] });
       toast.success(json.message || "Analysis created successfully!");
+      setIsOpen(false);
     } else {
       toast.error(json.message || "Failed to run analysis");
     }
@@ -136,6 +139,8 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
               errors={errors}
               handleSubmit={handleSubmit(onSubmit)}
               isSubmitting={isSubmitting}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
               buttonText="Re-run AI Analysis"
             />
           </div>
@@ -155,7 +160,8 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
           errors={errors}
           handleSubmit={handleSubmit(onSubmit)}
           isSubmitting={isSubmitting}
-          isSubmitSuccessful={isSubmitSuccessful}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
         />
       </div>
     );
