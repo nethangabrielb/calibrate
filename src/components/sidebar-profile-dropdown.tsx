@@ -36,7 +36,7 @@ const ProfileDropdown = ({ user }: { user: any }) => {
             alt="Profile"
             className="w-10 h-10 rounded-full object-cover"
           />
-          <div className="min-w-0">
+          <div className="min-w-0 text-start">
             <p className="text-[12px] font-medium truncate" title={user.name}>
               {user.name}
             </p>
@@ -63,7 +63,7 @@ const ProfileDropdown = ({ user }: { user: any }) => {
             />
             <div className="min-w-0">
               <p
-                className="text-[12px] font-medium truncate leading-tight"
+                className="text-[12px] font-medium truncate leading-tight text-start"
                 title={user.name}
               >
                 {user.name}
