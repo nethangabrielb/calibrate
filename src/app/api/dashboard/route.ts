@@ -59,6 +59,9 @@ const fetchOffers = async (userId: string) => {
 
 const fetchChartData = async (userId: string) => {
   const chartData = await prisma.job.groupBy({
+    where: {
+      userId,
+    },
     by: ["status"],
     _count: {
       _all: true,
