@@ -2,12 +2,13 @@
 
 import { ApplicationsBarChart } from "@/app/dashboard/components/bar-chart";
 import DashboardCard from "@/app/dashboard/components/card";
+import DashboardSkeleton from "@/app/dashboard/components/dashboard-skeleton";
 import { RecentApplicationsTable } from "@/app/dashboard/components/recent-applications-table";
 import { useQuery } from "@tanstack/react-query";
 import { Activity, Briefcase, TrendingUp, Trophy } from "lucide-react";
 
 const Dashboard = () => {
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["dashboardData"],
     queryFn: async () => {
       const response = await fetch("/api/dashboard");
@@ -17,6 +18,10 @@ const Dashboard = () => {
       return response.json();
     },
   });
+
+  if (isPending) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className="flex w-full flex-col gap-4 bg-background px-8 py-4 text-foreground">
