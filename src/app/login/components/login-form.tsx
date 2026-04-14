@@ -4,8 +4,9 @@ import { login } from "@/actions/auth";
 import { SiGoogle } from "@icons-pack/react-simple-icons";
 import { toast } from "sonner";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,25 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const router = useRouter();
   const [state, action, pending] = useActionState(login, undefined);
+  const [googlePending, setGooglePending] = useState(false);
+
+  const onGoogleSignIn = async () => {
+    try {
+      setGooglePending(true);
+      const response = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+      });
+
+      if (response?.error) {
+        toast.error(response.error.message || "Google sign in failed");
+        setGooglePending(false);
+      }
+    } catch {
+      toast.error("Unable to start Google sign in. Please try again.");
+      setGooglePending(false);
+    }
+  };
 
   useEffect(() => {
     if (state?.success) {
@@ -93,23 +113,21 @@ export function LoginForm({
                 )}
               </Field>
               <Field>
-                <Button type="submit" disabled={pending}>
-                  Login
+                <Button type="submit" disabled={pending || googlePending}>
+                  {pending ? "Logging in..." : "Login"}
                 </Button>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
               <Button
                 variant="outline"
                 type="button"
-                onClick={async () =>
-                  await authClient.signIn.social({
-                    provider: "google",
-                    callbackURL: "/dashboard",
-                  })
-                }
+                disabled={pending || googlePending}
+                onClick={onGoogleSignIn}
               >
                 <SiGoogle></SiGoogle>
-                <span>Continue with Google</span>
+                <span>
+                  {googlePending ? "Opening Google..." : "Continue with Google"}
+                </span>
               </Button>
               <FieldDescription className="text-center">
                 Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
@@ -126,8 +144,9 @@ export function LoginForm({
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <Link href="/terms-of-service">Terms of Service</Link>{" "}
-        and <Link href="/privacy-policy">Privacy Policy</Link>.
+        By clicking continue, you agree to our{" "}
+        <Link href="/terms-of-service">Terms of Service</Link> and{" "}
+        <Link href="/privacy-policy">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   );
