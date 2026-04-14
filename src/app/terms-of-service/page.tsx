@@ -40,8 +40,8 @@ const TermsOfService = () => {
             <p className="mt-2">
               By creating an account or using Calibrate AI, you agree to these
               Terms of Service. If you do not agree, please do not use the
-              service. We may update these terms at any time, and continued use
-              constitutes acceptance.
+              service. These terms may be updated at any time, and continued
+              use constitutes acceptance.
             </p>
           </section>
 
@@ -69,8 +69,8 @@ const TermsOfService = () => {
                 your login credentials with others.
               </p>
               <p>
-                We reserve the right to suspend or terminate accounts that
-                violate these terms or engage in abusive behavior.
+                Accounts that violate these terms or engage in abusive behavior
+                may be suspended or terminated.
               </p>
             </div>
           </section>
@@ -108,9 +108,10 @@ const TermsOfService = () => {
               <p>
                 You retain ownership of all content you submit to Calibrate AI,
                 including job application details and resume text. By using the
-                AI analysis feature, you grant us permission to send your resume
-                text and the relevant job description to our AI provider (Mistral
-                AI) for the purpose of generating your analysis.
+                AI analysis feature, you grant Calibrate AI permission to send
+                your resume text and the relevant job description to the AI
+                provider (Mistral AI) for the purpose of generating your
+                analysis.
               </p>
               <p>
                 You are solely responsible for the accuracy and legality of the
@@ -145,19 +146,19 @@ const TermsOfService = () => {
             <h2 className="text-base font-medium">7. Rate Limits</h2>
             <p className="mt-2">
               AI analysis requests are rate-limited to 8 requests per hour per
-              user. This limit exists to ensure fair usage and manage costs. We
-              reserve the right to adjust rate limits at any time.
+              user. This limit exists to ensure fair usage and manage costs.
+              Rate limits may be adjusted at any time.
             </p>
           </section>
 
           <section>
             <h2 className="text-base font-medium">8. Service Availability</h2>
             <p className="mt-2">
-              We aim to keep Calibrate AI available at all times but do not
-              guarantee uninterrupted service. The service may be temporarily
+              Calibrate AI aims to be available at all times but uninterrupted
+              service is not guaranteed. The service may be temporarily
               unavailable due to maintenance, updates, or circumstances beyond
-              our control. We are not liable for any loss or inconvenience caused
-              by downtime.
+              the developer&apos;s control. The developer is not liable for any
+              loss or inconvenience caused by downtime.
             </p>
           </section>
 
@@ -178,10 +179,10 @@ const TermsOfService = () => {
           <section>
             <h2 className="text-base font-medium">10. Termination</h2>
             <p className="mt-2">
-              You may stop using the service at any time. We may suspend or
-              terminate your access if you violate these terms. Upon
+              You may stop using the service at any time. Your access may be
+              suspended or terminated if you violate these terms. Upon
               termination, your right to use the service ceases immediately. You
-              may request deletion of your data by contacting us.
+              may request deletion of your data by contacting the developer.
             </p>
           </section>
 
@@ -189,7 +190,7 @@ const TermsOfService = () => {
             <h2 className="text-base font-medium">11. Contact</h2>
             <p className="mt-2">
               If you have questions about these Terms of Service, you can reach
-              us at{" "}
+              the developer at{" "}
               <a
                 href="mailto:bagasbas.nethangabriel@gmail.com"
                 className="text-primary underline-offset-2 hover:underline"

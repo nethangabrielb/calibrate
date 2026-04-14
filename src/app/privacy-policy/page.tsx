@@ -38,16 +38,16 @@ const PrivacyPolicy = () => {
           <section>
             <h2 className="text-base font-medium">1. Introduction</h2>
             <p className="mt-2">
-              Calibrate AI (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;)
-              is a job application tracking and AI-powered resume analysis tool.
-              This Privacy Policy explains how we collect, use, and protect your
-              personal information when you use our service.
+              Calibrate AI is a job application tracking and AI-powered resume
+              analysis tool built and maintained by a sole developer. This
+              Privacy Policy explains what personal information is collected,
+              how it is used, and how it is protected when you use the service.
             </p>
           </section>
 
           <section>
             <h2 className="text-base font-medium">
-              2. Information We Collect
+              2. Information Collected
             </h2>
             <div className="mt-2 space-y-3">
               <div>
@@ -55,9 +55,10 @@ const PrivacyPolicy = () => {
                   Account Information
                 </h3>
                 <p className="mt-1">
-                  When you create an account, we collect your name, email
-                  address, and password (hashed). If you sign in with Google, we
-                  receive your name, email, and profile picture from Google.
+                  When you create an account, Calibrate AI collects your name,
+                  email address, and password (hashed). If you sign in with
+                  Google, your name, email, and profile picture are received
+                  from Google.
                 </p>
               </div>
               <div>
@@ -87,10 +88,10 @@ const PrivacyPolicy = () => {
                   Session &amp; Usage Data
                 </h3>
                 <p className="mt-1">
-                  We collect session information including IP addresses and user
-                  agent strings for authentication and security purposes. We use
-                  Upstash Redis for rate limiting, which tracks request counts
-                  per user.
+                  Calibrate AI collects session information including IP
+                  addresses and user agent strings for authentication and
+                  security purposes. Upstash Redis is used for rate limiting,
+                  which tracks request counts per user.
                 </p>
               </div>
             </div>
@@ -98,7 +99,7 @@ const PrivacyPolicy = () => {
 
           <section>
             <h2 className="text-base font-medium">
-              3. How We Use Your Information
+              3. How Your Information Is Used
             </h2>
             <ul className="mt-2 list-inside list-disc space-y-1.5 text-foreground/80">
               <li>
@@ -134,8 +135,8 @@ const PrivacyPolicy = () => {
                   When you run an AI analysis, your resume text and the
                   corresponding job description are sent to Mistral AI for
                   processing. Mistral AI processes this data according to their
-                  own privacy policy. We do not send any other personal
-                  information to Mistral AI.
+                  own privacy policy. No other personal information is sent to
+                  Mistral AI.
                 </p>
               </div>
               <div>
@@ -143,9 +144,9 @@ const PrivacyPolicy = () => {
                   Google OAuth
                 </h3>
                 <p className="mt-1">
-                  If you choose to sign in with Google, we receive basic profile
-                  information (name, email, profile picture) from Google. We do
-                  not access any other Google data.
+                  If you choose to sign in with Google, basic profile
+                  information (name, email, profile picture) is received from
+                  Google. No other Google data is accessed.
                 </p>
               </div>
               <div>
@@ -153,9 +154,9 @@ const PrivacyPolicy = () => {
                   Upstash Redis
                 </h3>
                 <p className="mt-1">
-                  We use Upstash Redis for rate limiting the AI analysis feature.
-                  Only your user ID and request timestamps are stored, and this
-                  data is automatically expired.
+                  Upstash Redis is used for rate limiting the AI analysis
+                  feature. Only your user ID and request timestamps are stored,
+                  and this data is automatically expired.
                 </p>
               </div>
             </div>
@@ -166,7 +167,7 @@ const PrivacyPolicy = () => {
             <p className="mt-2">
               Your data is stored in a PostgreSQL database. Passwords are hashed
               using bcrypt before storage. Sessions use HTTP-only, secure cookies
-              with SameSite protection. We implement authorization checks on
+              with SameSite protection. Authorization checks are implemented on
               every request to ensure you can only access your own data.
             </p>
           </section>
@@ -192,7 +193,7 @@ const PrivacyPolicy = () => {
               </li>
               <li>
                 Request deletion of your account and all associated data by
-                contacting us
+                contacting the developer
               </li>
             </ul>
           </section>
@@ -202,7 +203,7 @@ const PrivacyPolicy = () => {
               8. Changes to This Policy
             </h2>
             <p className="mt-2">
-              We may update this Privacy Policy from time to time. Any changes
+              This Privacy Policy may be updated from time to time. Any changes
               will be reflected by updating the &quot;Last updated&quot; date at
               the top of this page. Continued use of the service after changes
               constitutes acceptance of the updated policy.
@@ -212,8 +213,8 @@ const PrivacyPolicy = () => {
           <section>
             <h2 className="text-base font-medium">9. Contact</h2>
             <p className="mt-2">
-              If you have questions about this Privacy Policy, you can reach us
-              at{" "}
+              If you have questions about this Privacy Policy, you can reach the
+              developer at{" "}
               <a
                 href="mailto:bagasbas.nethangabriel@gmail.com"
                 className="text-primary underline-offset-2 hover:underline"
