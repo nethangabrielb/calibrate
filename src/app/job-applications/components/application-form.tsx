@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 import { TextField } from "@/components/input";
 import { StatusSelect } from "@/components/status-dropdown";
+import { FieldLabel } from "@/components/ui/field";
 
 import { FormState } from "@/schemas/application";
 
@@ -88,16 +89,19 @@ const ApplicationForm = ({
             ></TextField>
           </div>
           {edit && data && (
-            <StatusSelect
-              defaultStatus={state?.data?.status ?? data?.status}
-            ></StatusSelect>
+            <div className="flex flex-col gap-3">
+              <FieldLabel>Status</FieldLabel>
+              <StatusSelect
+                defaultStatus={state?.data?.status ?? data?.status}
+              ></StatusSelect>
+            </div>
           )}
         </div>
 
         {/* Scaffold placeholder: swap in project Button and pending state handling. */}
         <button
           type="submit"
-          className="rounded-md border px-4 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-primary/50 disabled:hover:bg-primary/50 transition"
+          className="rounded-md border px-4 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-primary/50 disabled:hover:bg-primary/50 transition cursor-pointer"
           disabled={pending}
         >
           {pending ? "Saving..." : "Save Application"}
