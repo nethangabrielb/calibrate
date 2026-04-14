@@ -49,6 +49,11 @@
 
 > **Calibrate AI** is a full-stack AI-powered job application tracking platform built with **Next.js 16**, **Prisma 7**, and **Mistral AI**. It allows job seekers to log, manage, and track their job applications while leveraging AI to analyze how well their resume matches each job description, providing a quantified fit score, matching/missing skill breakdowns, and actionable recommendations.
 
+<img width="1901" height="1097" alt="image" src="https://github.com/user-attachments/assets/b5341c34-96c0-448f-951f-b00c7129d4bf" />
+<img width="1919" height="1098" alt="image" src="https://github.com/user-attachments/assets/b0bf8298-e07c-4835-9f24-9c18b07fb0bb" />
+
+
+
 This project was built to:
 
 - **Solve a real problem** — Job seekers often apply blindly without knowing how well their profile matches a role. Calibrate AI provides data-driven insights _before_ you apply.
