@@ -57,6 +57,17 @@ const fetchOffers = async (userId: string) => {
   return offeredApplications;
 };
 
+const fetchChartData = async (userId: string) => {
+  const chartData = await prisma.job.groupBy({
+    by: ["status"],
+    _count: {
+      _all: true,
+    },
+  });
+
+  return chartData;
+};
+
 export const GET = async (request: NextRequest) => {
   const { user, isAuthenticated } = await isUserAuthenticated();
 
@@ -77,11 +88,13 @@ export const GET = async (request: NextRequest) => {
       averageScore,
       activeApplications,
       offeredApplications,
+      applicationsChartData,
     ] = await Promise.all([
       fetchTotalApplications(user.id),
       fetchAverageScores(user.id),
       fetchActiveApplications(user.id),
       fetchOffers(user.id),
+      fetchChartData(user.id),
     ]);
 
     return NextResponse.json({
@@ -92,6 +105,7 @@ export const GET = async (request: NextRequest) => {
         averageScore,
         activeApplications,
         offeredApplications,
+        applicationsChartData,
       },
     });
   } catch (error) {

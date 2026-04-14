@@ -1,5 +1,6 @@
 "use client";
 
+import { ApplicationsBarChart } from "@/app/dashboard/components/bar-chart";
 import DashboardCard from "@/app/dashboard/components/card";
 import { useQuery } from "@tanstack/react-query";
 import { Activity, Briefcase, TrendingUp, Trophy } from "lucide-react";
@@ -16,11 +17,11 @@ const Dashboard = () => {
     },
   });
 
-  console.log(data);
+  console.log(data?.data.applicationsChartData);
 
   return (
     <div className="flex w-full flex-col gap-4 bg-background px-8 py-4 text-foreground">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-4">
         <h1 className="text-2xl font-medium">Dashboard</h1>
         <p className="text-sm text-muted-foreground">
           Get an overview of your job applications and their performance.
@@ -48,6 +49,19 @@ const Dashboard = () => {
             value={data?.data.offeredApplications ?? "0"}
             icon={Trophy}
           />
+        </div>
+      </section>
+      <section className="flex gap-4 lg:flex-row flex-col">
+        <div className="w-full flex-2 flex">
+          <ApplicationsBarChart
+            chartData={data?.data.applicationsChartData ?? []}
+          />
+        </div>
+        <div className="flex flex-col gap-2 flex-1 bg-card border border-border rounded-lg backdrop-blur-lg p-4 shadow-sm">
+          <h1 className="text-2xl font-medium">Most recent applications</h1>
+          <p className="text-sm text-muted-foreground">
+            Shows your 5 most recent applications and their current status.
+          </p>
         </div>
       </section>
     </div>
