@@ -52,7 +52,7 @@ export function ApplicationsBarChart({
   return (
     <Card className="w-full h-full flex flex-col">
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
+        <CardTitle>Applications by Status</CardTitle>
         <CardDescription>Total applications by status</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
