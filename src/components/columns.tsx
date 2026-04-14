@@ -32,6 +32,9 @@ export const columns: ColumnDef<Application>[] = [
     accessorKey: "location",
     header: "Location",
     cell: ({ row }) => row.original.location ?? "-",
+    meta: {
+      className: "hidden md:table-cell",
+    },
   },
   {
     accessorKey: "salary",
@@ -61,6 +64,9 @@ export const columns: ColumnDef<Application>[] = [
         maximumFractionDigits: 0,
       }).format(salary);
     },
+    meta: {
+      className: "hidden md:table-cell",
+    },
   },
   {
     accessorKey: "createdAt",
@@ -78,12 +84,18 @@ export const columns: ColumnDef<Application>[] = [
     },
     cell: ({ row }) => formatDate(row.original.createdAt),
     enableGlobalFilter: false,
+    meta: {
+      className: "hidden lg:table-cell",
+    },
   },
   {
     accessorKey: "updatedAt",
     header: "Updated At",
     cell: ({ row }) => formatDate(row.original.updatedAt),
     enableGlobalFilter: false,
+    meta: {
+      className: "hidden lg:table-cell",
+    },
   },
   {
     accessorKey: "status",
@@ -91,6 +103,7 @@ export const columns: ColumnDef<Application>[] = [
   },
   {
     id: "analysisScore",
+    accessorFn: (row) => row.analyses?.[0]?.score ?? null,
     header: ({ column }) => {
       return (
         <Button
@@ -110,6 +123,9 @@ export const columns: ColumnDef<Application>[] = [
       }
 
       return `${score.toFixed(2)}%`;
+    },
+    meta: {
+      className: "hidden md:table-cell",
     },
   },
   {
@@ -143,5 +159,6 @@ export const columns: ColumnDef<Application>[] = [
         </DropdownMenu>
       );
     },
+    // Always visible
   },
 ];

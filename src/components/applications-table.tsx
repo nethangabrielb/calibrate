@@ -87,15 +87,23 @@ const ApplicationsTable = ({
         <Input
           placeholder="Search for applications..."
           onChange={(e) => table.setGlobalFilter(String(e.target.value))}
-          className="max-w-sm"
+          className="w-full max-w-xs sm:max-w-sm"
         />
       </div>
-      <div className="min-h-0 flex-1  overflow-auto">
+      {/* overflow-x-auto as a safety net if the viewport is still too narrow */}
+      <div className="min-h-0 flex-1 overflow-auto">
         <Table className="table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  // Pull the responsive className from column meta (if any)
+                  const metaClassName = (
+                    header.column.columnDef.meta as
+                      | { className?: string }
+                      | undefined
+                  )?.className;
+
                   return (
                     <TableHead
                       key={header.id}
@@ -106,6 +114,7 @@ const ApplicationsTable = ({
                           header.getContext().column.id === "actions"
                           ? "text-center"
                           : "",
+                        metaClassName,
                       )}
                     >
                       {header.isPlaceholder
@@ -135,35 +144,45 @@ const ApplicationsTable = ({
                     router.push(`/job-applications/${row.original.id}`);
                   }}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        "whitespace-normal wrap-break-word",
-                        cell.column.id === "salary" ||
-                          (cell.column.id === "analysisScore" &&
-                            "text-center") ||
-                          (cell.column.id === "status" && "text-center") ||
-                          (cell.column.id === "actions" && "text-center"),
-                      )}
-                    >
-                      {cell.column.id === "status" ? (
-                        <span
-                          className={cn(
-                            "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-                            statusColors(cell.getValue() as any),
-                          )}
-                        >
-                          {cell.getValue() as Application["status"]}
-                        </span>
-                      ) : (
-                        flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    // Pull the responsive className from column meta (if any)
+                    const metaClassName = (
+                      cell.column.columnDef.meta as
+                        | { className?: string }
+                        | undefined
+                    )?.className;
+
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        className={cn(
+                          "whitespace-normal wrap-break-word",
+                          cell.column.id === "salary" ||
+                            (cell.column.id === "analysisScore" &&
+                              "text-center") ||
+                            (cell.column.id === "status" && "text-center") ||
+                            (cell.column.id === "actions" && "text-center"),
+                          metaClassName,
+                        )}
+                      >
+                        {cell.column.id === "status" ? (
+                          <span
+                            className={cn(
+                              "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
+                              statusColors(cell.getValue() as any),
+                            )}
+                          >
+                            {cell.getValue() as Application["status"]}
+                          </span>
+                        ) : (
+                          flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (
