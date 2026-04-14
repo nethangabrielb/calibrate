@@ -1,103 +1,152 @@
-import Image from "next/image";
+import { ArrowRight, BarChart3, ClipboardList, Sparkles } from "lucide-react";
 
-export default function Home() {
+import Link from "next/link";
+import { headers } from "next/headers";
+
+import { SignOutButton } from "@/components/sign-out-button";
+import { Button } from "@/components/ui/button";
+
+import { auth } from "@/lib/auth";
+
+const features = [
+  {
+    icon: ClipboardList,
+    title: "Track everything",
+    description:
+      "Company, role, salary, status, description — all in one place with sorting and search.",
+  },
+  {
+    icon: Sparkles,
+    title: "AI fit analysis",
+    description:
+      "Paste your resume against any job description. Get a calibrated score, skill breakdown, and actionable next steps.",
+  },
+  {
+    icon: BarChart3,
+    title: "See the big picture",
+    description:
+      "Dashboard with totals, averages, status breakdowns, and your most recent activity.",
+  },
+];
+
+const Home = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const user = session?.user || null;
+
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-mono text-sm/6 sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-mono font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm font-medium transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    <div className="flex min-h-svh flex-col bg-background text-foreground">
+      {/* Navigation */}
+      <header className="border-b border-border">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
+          <Link href="/">
+            <img
+              src="/calibrate_inverted.svg"
+              alt="Calibrate AI"
+              className="size-96 pt-2"
             />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <span className="mr-2 hidden text-sm text-muted-foreground sm:inline">
+                  Logged in as {user.email}
+                </span>
+                <Button asChild size="sm" variant="outline">
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <SignOutButton />
+              </>
+            ) : (
+              <>
+                <Button asChild size="sm" variant="ghost">
+                  <Link href="/login">Log in</Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link href="/sign-up">Sign up</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      {/* Hero */}
+      <section className="flex flex-col items-center px-6 pt-28 pb-20 text-center sm:pt-36">
+        <h1 className="max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+          Know where you stand before you apply.
+        </h1>
+        <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Calibrate tracks your job applications and uses AI to measure how well
+          your resume fits each role — so you can focus on the ones worth your
+          time.
+        </p>
+        <div className="mt-10 flex gap-3">
+          {user ? (
+            <Button asChild size="lg">
+              <Link href="/dashboard">
+                Go to Dashboard
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
+          ) : (
+            <>
+              <Button asChild size="lg">
+                <Link href="/sign-up">
+                  Start tracking
+                  <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/login">Log in</Link>
+              </Button>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* What it does */}
+      <section className="border-t border-border px-6 py-16 sm:py-20">
+        <div className="mx-auto grid max-w-3xl gap-10 sm:grid-cols-3 sm:gap-8">
+          {features.map((feature) => (
+            <div key={feature.title}>
+              <feature.icon className="h-5 w-5 text-primary" />
+              <h3 className="mt-3 text-sm font-medium">{feature.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="mt-auto border-t border-border px-6 py-6">
+        <div className="mx-auto flex max-w-5xl items-center justify-between text-xs text-muted-foreground">
+          <p>&copy; {new Date().getFullYear()} Calibrate AI</p>
+          <p>Made with ❤️ by nethangabrielb</p>
+          <div className="flex gap-2">
+            <a
+              href="https://github.com/nethangabrielb/calibrate"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-foreground"
+              >
+            GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/nethangabrielb" target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-foreground">
+              LinkedIn
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   );
 }
+
+export default Home
