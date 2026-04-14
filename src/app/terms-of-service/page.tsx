@@ -12,7 +12,7 @@ const TermsOfService = () => {
             <img
               src="/calibrate_inverted.svg"
               alt="Calibrate AI"
-              className="size-96 pt-2"
+              className="h-7"
             />
           </Link>
           <Link

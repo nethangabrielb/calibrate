@@ -13,7 +13,7 @@ export default function SignupPage() {
             <img
               src="/calibrate_inverted.svg"
               alt="Calibrate AI"
-              className="size-96 pt-2"
+              className="h-7"
             />
           </Link>
           <Button asChild size="sm" variant="ghost">
