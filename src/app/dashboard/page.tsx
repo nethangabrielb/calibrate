@@ -2,6 +2,7 @@
 
 import { ApplicationsBarChart } from "@/app/dashboard/components/bar-chart";
 import DashboardCard from "@/app/dashboard/components/card";
+import { RecentApplicationsTable } from "@/app/dashboard/components/recent-applications-table";
 import { useQuery } from "@tanstack/react-query";
 import { Activity, Briefcase, TrendingUp, Trophy } from "lucide-react";
 
@@ -16,8 +17,6 @@ const Dashboard = () => {
       return response.json();
     },
   });
-
-  console.log(data?.data.applicationsChartData);
 
   return (
     <div className="flex w-full flex-col gap-4 bg-background px-8 py-4 text-foreground">
@@ -62,6 +61,9 @@ const Dashboard = () => {
           <p className="text-sm text-muted-foreground">
             Shows your 5 most recent applications and their current status.
           </p>
+          <RecentApplicationsTable
+            applications={data?.data.recentApplications ?? []}
+          />
         </div>
       </section>
     </div>

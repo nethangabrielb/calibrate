@@ -68,6 +68,20 @@ const fetchChartData = async (userId: string) => {
   return chartData;
 };
 
+const fetchMostRecentApplications = async (userId: string) => {
+  const recentApplications = await prisma.job.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+  });
+
+  return recentApplications;
+};
+
 export const GET = async (request: NextRequest) => {
   const { user, isAuthenticated } = await isUserAuthenticated();
 
@@ -89,12 +103,14 @@ export const GET = async (request: NextRequest) => {
       activeApplications,
       offeredApplications,
       applicationsChartData,
+      recentApplications,
     ] = await Promise.all([
       fetchTotalApplications(user.id),
       fetchAverageScores(user.id),
       fetchActiveApplications(user.id),
       fetchOffers(user.id),
       fetchChartData(user.id),
+      fetchMostRecentApplications(user.id),
     ]);
 
     return NextResponse.json({
@@ -106,6 +122,7 @@ export const GET = async (request: NextRequest) => {
         activeApplications,
         offeredApplications,
         applicationsChartData,
+        recentApplications,
       },
     });
   } catch (error) {
