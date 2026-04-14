@@ -23,9 +23,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next-Express Template",
+  title: "Calibrate AI",
   description:
-    "Simple, modern opinionated monorepo template with Next.js and Express.js using TypeScript",
+    "Track your job applications and use AI to measure how well your resume fits each role.",
 };
 
 export default async function RootLayout({
