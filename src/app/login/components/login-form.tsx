@@ -6,7 +6,6 @@ import { toast } from "sonner";
 
 import { useActionState, useEffect } from "react";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
+import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
@@ -127,8 +126,8 @@ export function LoginForm({
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <Link href="/terms-of-service">Terms of Service</Link>{" "}
+        and <Link href="/privacy-policy">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   );

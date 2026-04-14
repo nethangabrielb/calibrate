@@ -69,8 +69,8 @@ const Sidebar = ({ user }: { user: any }) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const isVisible =
-    pathname !== "/login" && pathname !== "/sign-up" && pathname !== "/";
+  const hiddenPaths = ["/login", "/sign-up", "/", "/privacy-policy", "/terms-of-service"];
+  const isVisible = !hiddenPaths.includes(pathname);
 
   return (
     <Activity mode={isVisible ? "visible" : "hidden"}>
