@@ -170,7 +170,7 @@ export const POST = async (
           recommendation: z.string(),
         }),
       }),
-      prompt: `You are a senior technical recruiter with 15 years of experience hiring for engineering, product, and design roles at top-tier companies. Your evaluations are precise, honest, and actionable — you do not inflate scores or pad feedback.
+      prompt: `You are a precise technical recruiter. Never inflate scores. Never fabricate skills.
 
       Analyze the resume against the job description below and return a structured evaluation.
 
