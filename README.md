@@ -1,8 +1,6 @@
 <div align="center">
 <!-- PROJECT LOGO / BANNER -->
-<img src="public/calibrate_inverted.svg" alt="Calibrate AI Logo" width="200" />
-
-<h1>Calibrate AI</h1>
+<img src="public/calibrate.svg" alt="Calibrate AI Logo" width="200" />
 
 <p><em>An AI-powered job application tracker that analyzes your resume against job descriptions to calibrate your career moves.</em></p>
 
@@ -23,7 +21,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#-overview)
 - [Features](#-features)
@@ -47,7 +45,7 @@
 
 ---
 
-## 🔭 Overview
+## Overview
 
 > **Calibrate AI** is a full-stack AI-powered job application tracking platform built with **Next.js 16**, **Prisma 7**, and **Mistral AI**. It allows job seekers to log, manage, and track their job applications while leveraging AI to analyze how well their resume matches each job description — providing a quantified fit score, matching/missing skill breakdowns, and actionable recommendations.
 
@@ -59,7 +57,7 @@ This project was built to:
 
 ---
 
-## ✨ Features
+## Features
 
 ### Core
 
@@ -102,7 +100,7 @@ This project was built to:
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -147,7 +145,7 @@ This project was built to:
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 ### Project Structure
 
@@ -307,7 +305,7 @@ User Action → Client Component → React Query / useActionState
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -407,7 +405,7 @@ The app will be available at: `http://localhost:3000`
 
 ---
 
-## 📡 API Reference
+## API Reference
 
 All API routes are located under `src/app/api/` and follow Next.js App Router conventions.
 
@@ -520,7 +518,7 @@ Rate limit headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-R
 
 ---
 
-## 🗄 Database Schema
+## Database Schema
 
 > Full schema: [`prisma/schema.prisma`](prisma/schema.prisma)
 
@@ -627,7 +625,7 @@ erDiagram
 
 ---
 
-## 🧠 AI Analysis Engine
+## AI Analysis Engine
 
 The AI analysis system is the core differentiator of Calibrate AI. Here's how it works under the hood:
 
@@ -693,7 +691,7 @@ const ratelimit = new Ratelimit({
 
 ---
 
-## 🔐 Authentication Flow
+## Authentication Flow
 
 ### Architecture
 
@@ -734,7 +732,7 @@ Every API endpoint and Server Action performs:
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ### Key Design Decisions
 
@@ -760,7 +758,7 @@ The application uses a custom teal-centric design system defined in `globals.css
 
 ---
 
-## 🗺 Roadmap
+## Roadmap
 
 | Status | Feature |
 |--------|---------|
@@ -783,7 +781,7 @@ See all open issues: [GitHub Issues →](https://github.com/nethangabrielb/calib
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are what make open-source amazing. Any contributions are greatly appreciated.
 
@@ -797,13 +795,13 @@ Contributions are what make open-source amazing. Any contributions are greatly a
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 - [Next.js](https://nextjs.org/) — Full-stack React framework
 - [Vercel AI SDK](https://sdk.vercel.ai/) — AI model integration
@@ -817,15 +815,15 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-## 📬 Contact
+## Contact
 
-**Nethan Gabriel Bagsit**
-
+**Nethan Gabriel B. Bagasbas**
 [![GitHub](https://img.shields.io/badge/GitHub-nethangabrielb-black?style=flat-square&logo=github)](https://github.com/nethangabrielb)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-nethangabrielb-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/nethangabrielb/)
 [![Email](https://img.shields.io/badge/Email-bagasbas.nethangabriel-red?style=flat-square&logo=gmail)](mailto:bagasbas.nethangabriel@gmail.com)
 
 ---
 
 <div align="center">
-  <sub>Built with ❤️ by <a href="https://github.com/nethangabrielb">Nethan Gabriel Bagsit</a></sub>
+  <sub>Built with ❤️ by <a href="https://github.com/nethangabrielb">Nethan Gabriel Bagasbas</a></sub>
 </div>
