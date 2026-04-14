@@ -168,30 +168,33 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
   })();
 
   return (
-    <div className="flex h-screen w-full min-w-0 gap-6 bg-background px-8 py-4 text-foreground">
+    <div className="flex min-h-screen w-full min-w-0 flex-col gap-4 bg-background px-4 py-4 text-foreground sm:gap-6 sm:px-6 lg:px-8 xl:h-[calc(100vh-2rem)] xl:flex-row">
       {applicationPending ? (
         <JobApplicationSkeleton />
       ) : (
-        <div className="flex w-full flex-col flex-1 min-h-0">
-          <section className="flex flex-col gap-2 h-fit">
-            <h1 className="font-medium text-2xl">{data?.title}</h1>
+        <div className="flex w-full min-h-0 flex-col xl:w-5/12">
+          <section className="h-fit space-y-2">
+            <h1 className="text-2xl font-medium sm:text-3xl">{data?.title}</h1>
             <h3 className="text-[16px] font-normal text-secondary-foreground">
               {data?.company}
             </h3>
 
-            <div className="flex items-center gap-4 mt-2 h-5 text-[14px]">
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
               {data?.location && (
                 <>
-                  <div className="text-black/70 flex items-center gap-1">
+                  <div className="flex items-center gap-1 text-black/70">
                     <MapPin className="inline-block h-4 w-4" />
                     <p>{data?.location}</p>
                   </div>
-                  <Separator orientation="vertical" />
+                  <Separator
+                    orientation="vertical"
+                    className="hidden md:block"
+                  />
                 </>
               )}
               {data?.salary && (
                 <>
-                  <div className="text-black/70 flex items-center gap-1">
+                  <div className="flex items-center gap-1 text-black/70">
                     <p>
                       {new Intl.NumberFormat("en-US", {
                         style: "currency",
@@ -200,29 +203,32 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
                       }).format(data?.salary)}
                     </p>
                   </div>
-                  <Separator orientation="vertical" />
+                  <Separator
+                    orientation="vertical"
+                    className="hidden md:block"
+                  />
                 </>
               )}
               {data?.createdAt && (
-                <div className="text-black/70 flex items-center gap-1">
+                <div className="flex items-center gap-1 text-black/70">
                   <p>Applied on {formatDate(data?.createdAt)}</p>
                 </div>
               )}
             </div>
             <div
               className={cn(
-                "px-4 py-2 rounded-full text-[12px] font-semibold w-fit mt-2 mb-2",
+                "mb-2 mt-2 w-fit rounded-full px-4 py-2 text-[12px] font-semibold",
                 statusStyle(data?.status as Application["status"]),
               )}
             >
               {data?.status}
             </div>
           </section>
-          <section className="flex flex-col gap-2 mt-4 border border-border rounded-lg p-4 min-h-0 flex-1 overflow-hidden shadow-sm backdrop-blur-sm">
+          <section className="mt-4 flex h-[42vh] min-h-0 flex-col gap-2 overflow-hidden rounded-lg border border-border p-4 shadow-sm backdrop-blur-sm md:h-[48vh] xl:h-auto xl:flex-1">
             <h1 className="text-xl font-medium shrink-0">
               Full Job Description
             </h1>
-            <p className="font-light overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-border/70 scrollbar-track-transparent">
+            <p className="min-h-0 overflow-y-auto font-light scrollbar-thin scrollbar-track-transparent scrollbar-thumb-rounded scrollbar-thumb-border/70">
               {data?.description}
             </p>
           </section>
@@ -230,12 +236,14 @@ const JobApplication = ({ params }: { params: Promise<{ id: string }> }) => {
       )}
 
       {/* AI Analysis Section */}
-      <div className="flex flex-1 flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-lg backdrop-blur-sm">
-        <header className="flex items-center justify-between gap-4">
-          <h1 className="text-2xl font-medium tracking-tight">AI Analysis</h1>
+      <div className="flex w-full min-h-0 flex-col gap-4 rounded-2xl border border-border bg-card p-4 shadow-lg backdrop-blur-sm sm:p-6 xl:w-7/12">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <h1 className="text-xl font-medium tracking-tight sm:text-2xl">
+            AI Analysis
+          </h1>
           <Link
             href="/job-applications"
-            className="group flex items-center gap-1 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+            className="group inline-flex w-fit items-center gap-1 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
             <span className="select-none leading-none">
